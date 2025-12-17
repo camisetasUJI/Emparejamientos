@@ -3,208 +3,475 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscador de Emparejamientos UJI</title>
+    <title>CustomTee | Design Your Vibe</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #1a0000;
-            background-image: radial-gradient(circle at top left, #ff2d55, transparent 40%), radial-gradient(circle at bottom right, #ff2d55, transparent 40%);
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --accent: #f43f5e;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-soft: #4f46e5;
+            --text-muted: #94a3b8;
+            --border: #f1f5f9;
+            --radius-xl: 32px;
+            --radius-lg: 18px;
+            --shadow-vibe: 0 25px 50px -12px rgba(99, 102, 241, 0.15);
         }
-        .glass-card {
-            background: rgba(0, 0, 0, 0.4);
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg); 
+            color: var(--text-main); 
+            padding: 20px; 
+            line-height: 1.5;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
+        }
+
+        .container { max-width: 850px; margin: 60px auto; }
+        
+        .header { text-align: center; margin-bottom: 60px; }
+        .header h1 { 
+            font-size: 4rem; 
+            font-weight: 800; 
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.07em;
+            margin-bottom: 15px;
+        }
+        .header p { color: var(--text-soft); font-weight: 700; font-size: 1.2rem; letter-spacing: -0.02em; }
+
+        .card { 
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 45, 85, 0.3);
-            box-shadow: 0 0 80px -10px rgba(255, 45, 85, 0.25);
+            border-radius: var(--radius-xl); 
+            box-shadow: var(--shadow-vibe); 
+            padding: 60px; 
+            border: 1px solid rgba(255, 255, 255, 0.4);
         }
-        .text-glow {
-            text-shadow: 0 0 8px rgba(255, 45, 85, 0.7);
+
+        .section { margin-bottom: 60px; animation: fadeIn 0.8s ease-out both; }
+        .section-title { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            margin-bottom: 35px; 
+            font-size: 1.6rem; 
+            font-weight: 800;
+            letter-spacing: -0.04em;
         }
-        .button-glow:hover {
-            box-shadow: 0 0 20px 0px rgba(255, 45, 85, 0.8);
+
+        .step-num {
+            background: var(--primary-gradient);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            box-shadow: 0 8px 15px rgba(99, 102, 241, 0.3);
         }
-        .input-focus:focus {
-            box-shadow: 0 0 15px 0px rgba(255, 45, 85, 0.6);
-            border-color: #ff2d55;
+
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } .card { padding: 30px; } .header h1 { font-size: 3rem; } }
+
+        .form-group { margin-bottom: 25px; }
+        label { display: block; font-weight: 800; font-size: 0.8rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); }
+
+        input, select, textarea {
+            width: 100%; padding: 18px; border: 2.5px solid var(--border); border-radius: var(--radius-lg);
+            font-size: 1rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-family: inherit;
+            background: #fff;
         }
+        input:focus, select:focus, textarea:focus { 
+            border-color: #6366f1; 
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.1); 
+            outline: none; 
+            transform: translateY(-3px);
+        }
+
+        /* --- PALETA DE COLORES --- */
+        .color-group-tag {
+            font-size: 0.7rem; font-weight: 900; color: #6366f1; text-transform: uppercase;
+            letter-spacing: 0.15em; margin: 30px 0 15px; display: block;
+            background: #eef2ff; width: fit-content; padding: 4px 12px; border-radius: 6px;
+        }
+        .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); gap: 14px; }
+        .color-item { position: relative; cursor: pointer; text-align: center; }
+        .color-item input { position: absolute; opacity: 0; }
+        .color-swatch { 
+            width: 52px; height: 52px; border-radius: 18px; border: 4px solid #fff; 
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08); display: block; margin: 0 auto 10px; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .color-item input:checked + .color-swatch { 
+            transform: scale(1.25) rotate(10deg); 
+            box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.3); 
+            border-color: #6366f1; 
+        }
+        .color-name { font-size: 0.65rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; display: block; line-height: 1.2; }
+
+        /* Tallas */
+        .size-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 15px; }
+        .size-box { background: #f8fafc; padding: 20px; border-radius: var(--radius-lg); text-align: center; border: 2.5px solid transparent; transition: 0.3s; }
+        .size-box span { font-weight: 900; font-size: 1rem; color: var(--text-main); }
+        .size-box input { padding: 10px; margin-top: 10px; border: none; background: transparent; font-weight: 800; text-align: center; font-size: 1.2rem; color: #6366f1; }
+
+        /* --- CARGA DE ARCHIVOS MULTI-ADD --- */
+        .drop-zone {
+            border: 3px dashed #e2e8f0; 
+            border-radius: var(--radius-lg); 
+            padding: 50px 30px;
+            text-align: center; 
+            background: #fcfcfc; 
+            cursor: pointer; 
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        .drop-zone.dragover { border-color: #6366f1; background: #f5f3ff; transform: scale(1.02); }
+        .drop-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; z-index: 10; }
+        .drop-icon { font-size: 3.5rem; display: block; margin-bottom: 15px; }
+        
+        .file-counter {
+            display: inline-block;
+            margin-top: 15px;
+            background: var(--primary-gradient);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            opacity: 0;
+            transition: 0.3s;
+        }
+        .file-counter.visible { opacity: 1; }
+
+        .preview-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); 
+            gap: 15px; 
+            margin-top: 30px; 
+        }
+        .preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border: 3px solid white;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+        .preview-img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .remove-file {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        @keyframes popIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+
+        /* Footer */
+        .footer-summary {
+            position: sticky; bottom: 30px; background: #0f172a; color: white;
+            padding: 25px 40px; border-radius: 100px; display: flex; justify-content: space-between;
+            align-items: center; margin-top: 50px; box-shadow: 0 30px 60px -12px rgba(0,0,0,0.4);
+            z-index: 100;
+        }
+        .total-amount { font-size: 2.2rem; font-weight: 900; color: #a855f7; }
+
+        .btn-send {
+            width: 100%; background: var(--primary-gradient); color: white; border: none; padding: 25px;
+            border-radius: var(--radius-lg); font-size: 1.5rem; font-weight: 800; cursor: pointer;
+            transition: 0.4s; margin-top: 40px; 
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
+        }
+        .btn-send:hover:not(:disabled) { transform: translateY(-6px) scale(1.02); box-shadow: 0 25px 50px rgba(99, 102, 241, 0.5); }
+        .btn-send:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="text-gray-200 flex items-center justify-center min-h-screen p-4">
+<body>
 
-    <div class="glass-card rounded-2xl p-8 w-full max-w-md">
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-white mb-3 text-glow flex items-center justify-center gap-3">
-                Love Finder
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" class="text-red-500"><path d="M12 4.435c-1.989-5.399-12-4.597-12 3.568 0 4.068 3.06 9.481 12 14.997 8.94-5.516 12-10.929 12-14.997 0-8.118-10-8.999-12-3.568z"/></svg>
-            </h1>
-            <p class="text-red-200">Introduce un usuario de Instagram para encontrar su match.</p>
-        </div>
+    <div class="container">
+        <header class="header">
+            <h1>CustomTee</h1>
+            <p>Diseño salvaje. Calidad de locos.</p>
+        </header>
 
-        <div class="flex items-center gap-3 mb-6">
-            <input type="text" id="searchInput" placeholder="ej: @informerjaumei" class="input-focus w-full bg-black/30 border border-red-500/50 rounded-lg px-4 py-3 text-white placeholder-red-300/70 focus:ring-0 outline-none transition-all duration-300">
-            <button onclick="searchPairing()" class="button-glow bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 shrink-0">
-                Buscar
-            </button>
-        </div>
+        <form id="mainForm" action="https://formsubmit.co/malasanapedro@gmail.com" method="POST" enctype="multipart/form-data">
+            
+            <input type="hidden" name="_subject" value="🔥 NUEVO PEDIDO TOP - CustomTee">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
 
-        <div id="results" class="space-y-3">
-            <!-- Los resultados se mostrarán aquí -->
-        </div>
+            <div class="card">
+                <!-- 01: Identidad -->
+                <div class="section">
+                    <div class="section-title"><div class="step-num">1</div> Identidad</div>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Carrera Universitaria</label>
+                            <input type="text" name="Carrera" placeholder="Ej: Facultad de Medicina" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Responsable</label>
+                            <input type="text" name="Responsable" placeholder="¿A quién buscamos?" required>
+                        </div>
+                        <div class="form-group" style="grid-column: span 2">
+                            <label>WhatsApp Directo</label>
+                            <input type="tel" name="WhatsApp" placeholder="+34 600 000 000" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 02: Color de la prenda -->
+                <div class="section">
+                    <div class="section-title"><div class="step-num">2</div> Color de la prenda</div>
+                    
+                    <span class="color-group-tag">Los Imprescindibles</span>
+                    <div class="color-grid">
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Blanco" checked><span class="color-swatch" style="background:#ffffff"></span><span class="color-name">Blanco</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Negro"><span class="color-swatch" style="background:#000000"></span><span class="color-name">Negro</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Gris Melange"><span class="color-swatch" style="background:#d1d5db"></span><span class="color-name">Gris Melange</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Antracita"><span class="color-swatch" style="background:#334155"></span><span class="color-name">Antracita</span></label>
+                    </div>
+
+                    <span class="color-group-tag">Gama de Azules</span>
+                    <div class="color-grid">
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Marino"><span class="color-swatch" style="background:#1e3a8a"></span><span class="color-name">Marino</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Royal"><span class="color-swatch" style="background:#2563eb"></span><span class="color-name">Royal</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Celeste"><span class="color-swatch" style="background:#bae6fd"></span><span class="color-name">Celeste</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Sky Blue"><span class="color-swatch" style="background:#7dd3fc"></span><span class="color-name">Sky Blue</span></label>
+                    </div>
+
+                    <span class="color-group-tag">Rojos y Rosas</span>
+                    <div class="color-grid">
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Rojo"><span class="color-swatch" style="background:#dc2626"></span><span class="color-name">Rojo</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Granate"><span class="color-swatch" style="background:#991b1b"></span><span class="color-name">Granate</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Burdeos"><span class="color-swatch" style="background:#7f1d1d"></span><span class="color-name">Burdeos</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Rosa Claro"><span class="color-swatch" style="background:#fbcfe8"></span><span class="color-name">Rosa Pale</span></label>
+                    </div>
+
+                    <span class="color-group-tag">Verdes y Tierras</span>
+                    <div class="color-grid">
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Botella"><span class="color-swatch" style="background:#064e3b"></span><span class="color-name">V. Botella</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Kelly"><span class="color-swatch" style="background:#16a34a"></span><span class="color-name">V. Kelly</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Arena"><span class="color-swatch" style="background:#e7e5e4"></span><span class="color-name">Arena</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Chocolate"><span class="color-swatch" style="background:#451a03"></span><span class="color-name">Chocolate</span></label>
+                    </div>
+
+                    <span class="color-group-tag">Especiales</span>
+                    <div class="color-grid">
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Morado"><span class="color-swatch" style="background:#6d28d9"></span><span class="color-name">Morado</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Berenjena"><span class="color-swatch" style="background:#4c1d95"></span><span class="color-name">Berenjena</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Oro"><span class="color-swatch" style="background:#fbbf24"></span><span class="color-name">Oro</span></label>
+                    </div>
+                </div>
+
+                <!-- 03: Tallas -->
+                <div class="section">
+                    <div class="section-title"><div class="step-num">3</div> Tallas</div>
+                    <div class="size-grid">
+                        <div class="size-box"><span>XS</span><input type="number" name="XS" value="0" min="0" class="qty-in"></div>
+                        <div class="size-box"><span>S</span><input type="number" name="S" value="0" min="0" class="qty-in"></div>
+                        <div class="size-box"><span>M</span><input type="number" name="M" value="0" min="0" class="qty-in"></div>
+                        <div class="size-box"><span>L</span><input type="number" name="L" value="0" min="0" class="qty-in"></div>
+                        <div class="size-box"><span>XL</span><input type="number" name="XL" value="0" min="0" class="qty-in"></div>
+                        <div class="size-box"><span>XXL</span><input type="number" name="XXL" value="0" min="0" class="qty-in"></div>
+                    </div>
+                </div>
+
+                <!-- 04: Arte -->
+                <div class="section">
+                    <div class="section-title"><div class="step-num">4</div> Personalización</div>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Zona de Estampado</label>
+                            <select name="Ubicacion">
+                                <option value="Pecho">Pecho Izquierdo (Mini)</option>
+                                <option value="Centro">Pecho Central (Grande)</option>
+                                <option value="Espalda">Espalda Completa</option>
+                                <option value="Mangas">Mangas</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Color del Diseño</label>
+                            <input type="text" name="Color_Tinta" placeholder="Ej: Blanco Hielo" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Sube tus Logos o Bocetos (Se van acumulando)</label>
+                        <div class="drop-zone" id="dropZone">
+                            <input type="file" id="fileInput" accept="image/*" multiple>
+                            <div id="dropContent">
+                                <span class="drop-icon">📸</span>
+                                <p><strong>Pulsa para añadir fotos</strong></p>
+                                <p style="font-size:0.8rem; opacity:0.6">Puedes subir varias veces y se guardan todas</p>
+                            </div>
+                            <div id="fileCounter" class="file-counter">0 archivos listos</div>
+                        </div>
+                        <div class="preview-grid" id="previewGallery"></div>
+                    </div>
+                </div>
+
+                <!-- Footer Accion -->
+                <div class="section">
+                    <label>Instrucciones de locura</label>
+                    <textarea name="Mensaje" rows="5" placeholder="¿Nombres en la espalda? ¿Algún detalle específico? Suéltalo aquí..."></textarea>
+                    
+                    <div class="footer-summary">
+                        <span>Prendas totales:</span>
+                        <span class="total-amount" id="totalCount">0</span>
+                    </div>
+
+                    <button type="submit" class="btn-send" id="submitBtn">Enviar Pedido</button>
+                </div>
+            </div>
+        </form>
     </div>
 
     <script>
-        // Objeto para almacenar los emparejamientos
-        const pairings = {};
+        // Cálculo de totales
+        const inputs = document.querySelectorAll('.qty-in');
+        const totalDisplay = document.getElementById('totalCount');
 
-        // Lista ya normalizada (todos minúsculas, sin tildes ni caracteres inválidos)
-        const rawData = [
-            "bianca-biiaancaa.c con pilar-pilar_gil_",
-            "carles-carlesmmv con santiago-iamsantiberna",
-            "maria-bel03_rl con andrea-andreaadima",
-            "laura-lauuraa.bm con carmen-carmeencanoo_",
-            "ariadna-a.r.a02 con patricia-patriiserrano_",
-            "yaiza-yaizi_s_07 con gemma-gemma.borrass",
-            "david-_.dnbm._9801 con ro-ro_lopcod",
-            "yasmine-_yay0u_ con otman-the_real_otman1",
-            "dhirar-dhirardo con salma-_salma_214",
-            "fran-queesada_ con clara-claararius_",
-            "youssra-_.you_._ssi._ con javierferrer-javier_ferrer5",
-            "lina-luchajoverpb con javi-_javiipeerez_",
-            "irene-dakkenki_uchiha con cristian-cristiandragomir.",
-            "gemma-gemma.va con daniel-daniiiel_005",
-            "hectorguerrerofores-hectorguerrero._ con patricia-patri_1507_",
-            "karina-kariinaa.12 con hugo-hug0_sen",
-            "nabil-elnaabiiil con hiba-hiba.sdk_",
-            "pavel-chotkiy04_ con carla-carlaasteff",
-            "hugo-el.hugonote con elisa-eelidelarubia",
-            "imane-iimanch._ con ashraf-ashraf.sl_",
-            "esther-istharaix con vanessa-vanessatiba_",
-            "kevin-kev_23_pto con mario-mariopallares_",
-            "irene-kiena_x con vanessa-vanessatiba_",
-            "unai-unai.la.coca con kevin-kev_23_pto",
-            "aitor-_aitor.j con sandra-_saandra_99",
-            "daniel-danieelgb01 con danielalucasgarcia-danielaluucas",
-            "jorge-joorgedelaflor_ con jade-joderjade",
-            "marko-marko_diiaz con carla-carlapetit",
-            "yerai-yerai312 con nataliapascual-nata.pascual",
-            "isabel-isabelginer_ con daniel-indeal03",
-            "ines-ines.duvaaal con jacobo-jacobodm_",
-            "samuel-samuelsoriia con ines-ines.duvaaal",
-            "chema-jmdoblas_ con kenza-kenzaditom",
-            "alberto-albertomascarell_ con nuria-_nuriiaa.21",
-            "younes-younesagoujil_ con salma-_salma_214",
-            "candela-candelamateuu con carlos-cbioque_15",
-            "nuria-nuriviciano con pablo-ppf0902",
-            "denisa-denisatiba_ con diego-diegomarzaa",
-            "edilson-edi.arango7 con raquel-raquelgavrila_",
-            "paula-paaaula_20 con sergio-sergiofernaddezz",
-            "david-davidfustertv_ con bianca-biiaancaa.c",
-            "jaime-dm_jaime456 con maria-bel03_rl",
-            "ivan-ivan_c_4_ con andrea-andreaadima",
-            "jesus-jesus_marza con nataliapascual-nata.pascual",
-            "joan-joanpl con raquel-raquelgavrila_",
-            "alejandro-alexfa98 con isabel-isabelginer_",
-            "monfis-adrimonfis._ con paula-paaaula_20",
-            "alberto-alberto_hm21 con nuria-nuriviciano",
-            "victor-victoor.bs10 con ariadna-a.r.a02",
-            "nicolas-nicolas.boronat con karina-kariinaa.12",
-            "adrian-adrianqc_11 con laura-lauravf_04",
-            "alex-alex con nuria-_nuriiaa.21",
-            "fernando-fernandoo.peerez con laura-lauuraa.bm",
-            "claudio-claudioiborra_ con yasmine-_yay0u_",
-            "alex-alexb._085 con raquel-raquelgavrila_",
-            "angel-angel15_21 con sandra-_saandra_99",
-            "angelo-angelo_lunca con laura-lauuraa.bm",
-            "vicente-vicenteperis con youssra-_.you_._ssi._",
-            "antonioantoniogimeenez-antoniogimeenez con hiba-hiba.sdk_",
-            "ariel-arielpereira con candela-candelamateuu",
-            "ayman-ayman20040 con pilar-pilar_gil",
-            "quique-quique.sm con patricia-patriiserrano_",
-            "marc-marc_b.h._ con andrea-andreaadima",
-            "bruno-brunomarttii con maria-bel03_rl",
-            "daniel-dani_ccss con carmen-carmeencanoo_",
-            "nicolas-nicolaspiter0 con gemma-gemma.borrass",
-            "diego-garcia00dieguito con irene-dakkenki_uchiha",
-            "jorge-jorgeandresmd_ con elisa-eelidelarubia",
-            "carlos-carlosgemelo1386 con carla-carlapetit",
-            "mario-marioserrulla con ro-ro_lopcod",
-            "santiago-santiedooo con yaiza-yaizi_s_07",
-            "dani-dani_ps15 con yaiza-yaizi_s_07",
-            "jose-ppd5 con salma-_salma_214",
-            "juan-juan_est2210 con laura-lauravf_04",
-            "josemanuel-josemagll con ariadna-a.r.a02",
-            "mario-mariete181 con karina-kariinaa.12",
-            "jose-josemariamca8 con salma-_salma_214",
-            "jose-josfenfau97 con karina-kariinaa.12",
-            "pablo-pablito.celestial_01 con youssra-_.you_._ssi._",
-            "pedro-pedrocarbonell_ con chema-jmdoblas_",
-            "pablo-pablo.peris con denisa-denisatiba_",
-            "paco-paco.tr con bianca-biiaancaa.c",
-            "pau-parapapau.vi con pilar-pilar_gil"
-        ];
+        function updateTotal() {
+            let t = 0;
+            inputs.forEach(i => t += (parseInt(i.value) || 0));
+            totalDisplay.innerText = t;
+        }
+        inputs.forEach(i => i.addEventListener('input', updateTotal));
 
-        // Construir el objeto de emparejamientos
-        function processData() {
-            rawData.forEach(line => {
-                const parts = line.split(/ con /i);
-                if (parts.length === 2) {
-                    const user1 = parts[0].split('-').pop().trim();
-                    const user2 = parts[1].split('-').pop().trim();
+        // --- SISTEMA DE ALMACÉN DE ARCHIVOS ---
+        let selectedFiles = []; // Aquí guardamos TODO lo que el usuario suba
+        const fileInput = document.getElementById('fileInput');
+        const gallery = document.getElementById('previewGallery');
+        const counter = document.getElementById('fileCounter');
+        const dropZone = document.getElementById('dropZone');
 
-                    if (user1 && user2) {
-                        if (!pairings[user1]) pairings[user1] = [];
-                        if (!pairings[user1].includes(user2)) pairings[user1].push(user2);
+        // Escuchar cuando eligen archivos
+        fileInput.addEventListener('change', (e) => {
+            const newFiles = Array.from(e.target.files);
+            addFiles(newFiles);
+            fileInput.value = ""; // Limpiar input para permitir subir el mismo archivo si quieren
+        });
 
-                        if (!pairings[user2]) pairings[user2] = [];
-                        if (!pairings[user2].includes(user1)) pairings[user2].push(user1);
-                    }
+        // Drag & Drop
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            addFiles(Array.from(e.dataTransfer.files));
+        });
+
+        function addFiles(files) {
+            files.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    selectedFiles.push(file);
+                    renderGallery();
                 }
+            });
+            updateCounter();
+        }
+
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            renderGallery();
+            updateCounter();
+        }
+
+        function renderGallery() {
+            gallery.innerHTML = "";
+            selectedFiles.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const div = document.createElement('div');
+                    div.className = 'preview-item';
+                    div.innerHTML = `
+                        <button type="button" class="remove-file" onclick="removeFile(${index})">×</button>
+                        <img src="${e.target.result}" class="preview-img">
+                    `;
+                    gallery.appendChild(div);
+                };
+                reader.readAsDataURL(file);
             });
         }
 
-        // Buscar y mostrar resultados
-        function searchPairing() {
-            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase().replace('@','');
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = '';
+        function updateCounter() {
+            counter.innerText = `${selectedFiles.length} archivos listos`;
+            counter.className = selectedFiles.length > 0 ? 'file-counter visible' : 'file-counter';
+        }
 
-            if (!searchTerm) {
-                resultsDiv.innerHTML = `<div class="bg-yellow-900/50 border border-yellow-700 text-yellow-300 rounded-lg p-4 text-center">Por favor, introduce un nombre de usuario.</div>`;
+        // --- ENVÍO ESPECIAL ---
+        const form = document.getElementById('mainForm');
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Paramos el envío normal
+
+            const total = parseInt(totalDisplay.innerText);
+            if(total <= 0) {
+                alert("Otman dice: ¡Añade al menos una prenda! 💀");
                 return;
             }
 
-            const partners = pairings[searchTerm];
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = "🚀 ENVIANDO TODO...";
+            btn.disabled = true;
 
-            if (partners && partners.length > 0) {
-                let html = `<div class="bg-black/30 rounded-lg p-4 mb-3 text-center"><span class="text-red-200">Resultados para:</span> <strong class="text-white text-glow">@${searchTerm}</strong></div>`;
-                partners.forEach(partner => {
-                    html += `<a href="https://www.instagram.com/${partner}" target="_blank" class="block bg-black/20 hover:bg-black/40 border border-red-500/30 rounded-lg p-4 text-center text-lg font-medium text-white hover:text-red-300 transition-all duration-200">@${partner}</a>`;
+            // Preparamos los datos reales (FormData)
+            const formData = new FormData(form);
+            
+            // Borramos el campo original de archivos si existe y metemos los del almacén
+            formData.delete('attachments'); 
+            selectedFiles.forEach(file => {
+                formData.append('attachments', file);
+            });
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
                 });
-                resultsDiv.innerHTML = html;
-            } else {
-                resultsDiv.innerHTML = `<div class="bg-red-900/50 border border-red-700 text-red-300 rounded-lg p-4 text-center">No se encontraron emparejamientos para <strong class="font-bold">@${searchTerm}</strong>. Revisa que esté bien escrito.</div>`;
-            }
-        }
 
-        // Permitir buscar con Enter
-        document.getElementById('searchInput').addEventListener('keyup', function(event) {
-            if (event.key === 'Enter') {
-                searchPairing();
+                if (response.ok) {
+                    alert("¡Pedido enviado con éxito, Otman! Revisa tu email.");
+                    location.reload();
+                } else {
+                    throw new Error();
+                }
+            } catch (err) {
+                alert("Algo ha fallado al enviar. Prueba otra vez.");
+                btn.innerText = "Enviar Pedido";
+                btn.disabled = false;
             }
         });
-
-        // Procesar datos al cargar
-        processData();
     </script>
-
-</body>
-</html>
-
-    </script>
-
 </body>
 </html>
