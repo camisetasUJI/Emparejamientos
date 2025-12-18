@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CustomTee | Design Your Vibe</title>
+    <title>CustomTee — Gestión de Pedidos Universitarios</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --whatsapp-green: #25D366;
+            --whatsapp-dark: #128C7E;
             --accent: #f43f5e;
             --bg: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #0f172a;
             --text-soft: #4f46e5;
             --text-muted: #94a3b8;
-            --border: #f1f5f9;
-            --radius-xl: 32px;
-            --radius-lg: 18px;
-            --shadow-vibe: 0 25px 50px -12px rgba(99, 102, 241, 0.15);
+            --border: #e2e8f0;
+            --radius-xl: 24px;
+            --radius-lg: 14px;
+            --shadow-vibe: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -29,269 +31,289 @@
             background: var(--bg); 
             color: var(--text-main); 
             padding: 20px; 
-            line-height: 1.5;
+            line-height: 1.6;
             background-image: 
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.05) 0px, transparent 50%);
         }
 
-        .container { max-width: 850px; margin: 60px auto; }
+        .container { max-width: 850px; margin: 40px auto; }
         
-        .header { text-align: center; margin-bottom: 60px; }
+        .header { text-align: left; margin-bottom: 40px; border-left: 5px solid #6366f1; padding-left: 20px; }
         .header h1 { 
-            font-size: 4rem; 
+            font-size: 2.5rem; 
             font-weight: 800; 
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.07em;
-            margin-bottom: 15px;
+            color: var(--text-main);
+            letter-spacing: -0.04em;
+            margin-bottom: 5px;
         }
-        .header p { color: var(--text-soft); font-weight: 700; font-size: 1.2rem; letter-spacing: -0.02em; }
+        .header p { color: var(--text-muted); font-weight: 500; font-size: 1.1rem; }
 
         .card { 
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
+            background: var(--card-bg);
             border-radius: var(--radius-xl); 
             box-shadow: var(--shadow-vibe); 
-            padding: 60px; 
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 40px; 
+            border: 1px solid var(--border);
         }
 
-        .section { margin-bottom: 60px; animation: fadeIn 0.8s ease-out both; }
+        .section { margin-bottom: 50px; animation: fadeIn 0.6s ease-out both; }
         .section-title { 
             display: flex; 
             align-items: center; 
-            gap: 15px; 
-            margin-bottom: 35px; 
-            font-size: 1.6rem; 
+            gap: 12px; 
+            margin-bottom: 30px; 
+            font-size: 1.4rem; 
             font-weight: 800;
-            letter-spacing: -0.04em;
+            letter-spacing: -0.02em;
         }
 
         .step-num {
             background: var(--primary-gradient);
             color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 12px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
-            box-shadow: 0 8px 15px rgba(99, 102, 241, 0.3);
+            font-size: 0.9rem;
+            font-weight: 700;
         }
 
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-        @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } .card { padding: 30px; } .header h1 { font-size: 3rem; } }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } .card { padding: 25px; } .header h1 { font-size: 2rem; } }
 
-        .form-group { margin-bottom: 25px; }
-        label { display: block; font-weight: 800; font-size: 0.8rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 700; font-size: 0.75rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
 
         input, select, textarea {
-            width: 100%; padding: 18px; border: 2.5px solid var(--border); border-radius: var(--radius-lg);
-            font-size: 1rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-family: inherit;
-            background: #fff;
+            width: 100%; padding: 14px; border: 1.5px solid var(--border); border-radius: var(--radius-lg);
+            font-size: 1rem; transition: all 0.2s ease; font-family: inherit;
+            background: #fff; color: var(--text-main);
         }
         input:focus, select:focus, textarea:focus { 
             border-color: #6366f1; 
-            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.1); 
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); 
             outline: none; 
-            transform: translateY(-3px);
         }
 
-        /* PALETA DE COLORES - MANTENIDA INTACTA */
+        /* CATÁLOGO CROMÁTICO */
         .color-group-tag {
-            font-size: 0.7rem; font-weight: 900; color: #6366f1; text-transform: uppercase;
-            letter-spacing: 0.15em; margin: 30px 0 15px; display: block;
-            background: #eef2ff; width: fit-content; padding: 4px 12px; border-radius: 6px;
+            font-size: 0.7rem; font-weight: 800; color: #6366f1; text-transform: uppercase;
+            letter-spacing: 0.1em; margin: 30px 0 15px; display: block;
+            background: #f1f5f9; width: fit-content; padding: 3px 10px; border-radius: 4px;
         }
-        .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); gap: 14px; }
+        .color-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); 
+            gap: 12px; 
+        }
         .color-item { position: relative; cursor: pointer; text-align: center; }
         .color-item input { position: absolute; opacity: 0; }
         .color-swatch { 
-            width: 52px; height: 52px; border-radius: 18px; border: 4px solid #fff; 
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08); display: block; margin: 0 auto 10px; 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 44px; height: 44px; border-radius: 10px; border: 2px solid #fff; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: block; margin: 0 auto 8px; 
+            transition: all 0.2s ease;
+            outline: 1px solid var(--border);
         }
         .color-item input:checked + .color-swatch { 
-            transform: scale(1.25) rotate(10deg); 
-            box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.3); 
-            border-color: #6366f1; 
+            transform: scale(1.15);
+            box-shadow: 0 0 0 3px #6366f1; 
+            outline: none;
         }
-        .color-name { font-size: 0.65rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; display: block; line-height: 1.2; }
+        .color-name { font-size: 0.6rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; display: block; line-height: 1.2; height: 2.4em; overflow: hidden; }
 
-        .size-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 15px; }
-        .size-box { background: #f8fafc; padding: 20px; border-radius: var(--radius-lg); text-align: center; border: 2.5px solid transparent; transition: 0.3s; }
-        .size-box span { font-weight: 900; font-size: 1rem; color: var(--text-main); }
-        .size-box input { padding: 10px; margin-top: 10px; border: none; background: transparent; font-weight: 800; text-align: center; font-size: 1.2rem; color: #6366f1; width: 60px; }
+        /* Tallas */
+        .size-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(75px, 1fr)); gap: 10px; }
+        .size-box { background: #f8fafc; padding: 12px; border-radius: var(--radius-lg); text-align: center; border: 1px solid var(--border); transition: 0.2s; }
+        .size-box span { font-weight: 800; font-size: 0.85rem; color: var(--text-main); }
+        .size-box input { padding: 4px; margin-top: 4px; border: none; background: transparent; font-weight: 800; text-align: center; font-size: 1rem; color: #6366f1; width: 100%; }
+        .size-box:focus-within { border-color: #6366f1; background: #fff; }
 
-        .drop-zone {
-            border: 3px dashed #e2e8f0; 
+        /* SECCIÓN WHATSAPP LLAMATIVA */
+        .whatsapp-box {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            padding: 30px; 
             border-radius: var(--radius-lg); 
-            padding: 50px 30px;
-            text-align: center; 
-            background: #fcfcfc; 
-            cursor: pointer; 
-            transition: all 0.4s ease;
-            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            box-shadow: 0 15px 30px rgba(37, 211, 102, 0.3);
+            animation: pulse-green 3s infinite;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
-        .drop-zone.dragover { border-color: #6366f1; background: #f5f3ff; transform: scale(1.02); }
-        .drop-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; z-index: 10; }
-        .drop-icon { font-size: 3.5rem; display: block; margin-bottom: 15px; }
-        
-        .file-counter {
-            display: inline-block;
-            margin-top: 15px;
-            background: var(--primary-gradient);
-            color: white;
-            padding: 6px 16px;
-            border-radius: 100px;
-            font-size: 0.85rem;
-            font-weight: 800;
-            opacity: 0;
-            transition: 0.3s;
-        }
-        .file-counter.visible { opacity: 1; }
-
-        .preview-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); 
-            gap: 15px; 
-            margin-top: 30px; 
-        }
-        .preview-item {
-            position: relative;
-            aspect-ratio: 1;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            border: 3px solid white;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
-        }
-        .preview-img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .remove-file {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            width: 24px;
-            height: 24px;
+        .wa-icon-container {
+            background: white;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            cursor: pointer;
-            font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 20;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .wa-icon { font-size: 2.2rem; }
+        .wa-title { font-weight: 900; color: white; margin-bottom: 4px; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 0.02em; }
+        .wa-text { font-size: 0.9rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 15px; font-weight: 500; }
+        .wa-link { 
+            display: inline-block; 
+            background: white; 
+            color: var(--whatsapp-dark); 
+            padding: 12px 24px; 
+            border-radius: 10px; 
+            text-decoration: none; 
+            font-weight: 800; 
+            font-size: 1rem; 
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .wa-link:hover { transform: scale(1.05); background: #f0fdf4; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
 
+        /* Resumen Flotante */
         .footer-summary {
-            position: sticky; bottom: 30px; background: #0f172a; color: white;
-            padding: 25px 40px; border-radius: 100px; display: flex; justify-content: space-between;
-            align-items: center; margin-top: 50px; box-shadow: 0 30px 60px -12px rgba(0,0,0,0.4);
+            position: sticky; bottom: 20px; background: #0f172a; color: white;
+            padding: 15px 30px; border-radius: 16px; display: flex; justify-content: space-between;
+            align-items: center; margin-top: 40px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
             z-index: 100;
         }
-        .total-amount { font-size: 2.2rem; font-weight: 900; color: #a855f7; }
+        .total-amount { font-size: 1.8rem; font-weight: 800; color: #a855f7; }
+        .summary-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; }
 
         .btn-send {
-            width: 100%; background: var(--primary-gradient); color: white; border: none; padding: 25px;
-            border-radius: var(--radius-lg); font-size: 1.5rem; font-weight: 800; cursor: pointer;
-            transition: 0.4s; margin-top: 40px; 
-            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
+            background: var(--primary-gradient); color: white; border: none; padding: 12px 28px;
+            border-radius: 10px; font-size: 1rem; font-weight: 800; cursor: pointer;
+            transition: 0.3s; box-shadow: 0 8px 15px -3px rgba(99, 102, 241, 0.3);
         }
-        .btn-send:hover:not(:disabled) { transform: translateY(-6px) scale(1.02); box-shadow: 0 25px 50px rgba(99, 102, 241, 0.5); }
-        .btn-send:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-send:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 15px 20px -5px rgba(99, 102, 241, 0.4); }
 
-        @keyframes popIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        #notification {
+            position: fixed; top: 20px; right: 20px; padding: 15px 25px; border-radius: 12px;
+            background: white; box-shadow: 0 10px 15px rgba(0,0,0,0.1); border-left: 4px solid #6366f1;
+            z-index: 1000; display: none; transform: translateX(120%); transition: 0.3s ease;
+            font-weight: 700; font-size: 0.9rem;
+        }
+        #notification.show { display: block; transform: translateX(0); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
+    <div id="notification"></div>
+
     <div class="container">
         <header class="header">
             <h1>CustomTee</h1>
-            <p>Diseño salvaje. Calidad de locos.</p>
+            <p>Gestión de Pedidos Universitarios — Sistema de Producción</p>
         </header>
 
-        <form id="mainForm" action="https://formsubmit.co/ajax/malasanapedro@gmail.com" method="POST" enctype="multipart/form-data">
+        <form id="mainForm" action="https://formsubmit.co/ajax/malasanapedro@gmail.com" method="POST">
             
-            <input type="hidden" name="_subject" value="🔥 NUEVO PEDIDO TOP - CustomTee">
+            <input type="hidden" name="_subject" value="📦 NUEVA SOLICITUD - Gestión Universitaria">
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">
 
             <div class="card">
-                <!-- 01: Identidad -->
+                <!-- 01: Datos -->
                 <div class="section">
-                    <div class="section-title"><div class="step-num">1</div> Identidad</div>
+                    <div class="section-title"><div class="step-num">1</div> Datos de la Solicitud</div>
                     <div class="grid">
                         <div class="form-group">
-                            <label>Carrera Universitaria</label>
+                            <label>Facultad / Carrera</label>
                             <input type="text" name="Carrera" placeholder="Ej: Facultad de Medicina" required>
                         </div>
                         <div class="form-group">
-                            <label>Responsable</label>
-                            <input type="text" name="Responsable" placeholder="¿A quién buscamos?" required>
+                            <label>Representante / Responsable</label>
+                            <input type="text" name="Responsable" placeholder="Nombre completo" required>
                         </div>
                         <div class="form-group" style="grid-column: span 2">
-                            <label>WhatsApp Directo</label>
-                            <input type="tel" name="WhatsApp" placeholder="+34 600 000 000" required>
+                            <label>Teléfono de Coordinación (WhatsApp)</label>
+                            <input type="tel" name="WhatsApp" placeholder="+34 000 000 000" required>
                         </div>
                     </div>
                 </div>
 
-                <!-- 02: Color de la prenda (Restaurado completo) -->
+                <!-- 02: 44 Colores -->
                 <div class="section">
-                    <div class="section-title"><div class="step-num">2</div> Color de la prenda</div>
+                    <div class="section-title"><div class="step-num">2</div> Selección de Color Textil</div>
                     
-                    <span class="color-group-tag">Los Imprescindibles</span>
+                    <span class="color-group-tag">Fila 1: Neutros y Grises</span>
                     <div class="color-grid">
                         <label class="color-item"><input type="radio" name="Color_Prenda" value="Blanco" checked><span class="color-swatch" style="background:#ffffff"></span><span class="color-name">Blanco</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Negro"><span class="color-swatch" style="background:#000000"></span><span class="color-name">Negro</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Gris Melange"><span class="color-swatch" style="background:#d1d5db"></span><span class="color-name">Gris Melange</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Antracita"><span class="color-swatch" style="background:#334155"></span><span class="color-name">Antracita</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Negro profundo"><span class="color-swatch" style="background:#000000"></span><span class="color-name">Negro profundo</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Gris puro"><span class="color-swatch" style="background:#808080"></span><span class="color-name">Gris puro</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Gris claro"><span class="color-swatch" style="background:#d3d3d3"></span><span class="color-name">Gris claro</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Gris mezcla"><span class="color-swatch" style="background:#b0b0b0"></span><span class="color-name">Gris mezcla</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Gris ratón"><span class="color-swatch" style="background:#919191"></span><span class="color-name">Gris ratón</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Gris oscuro"><span class="color-swatch" style="background:#333333"></span><span class="color-name">Gris oscuro</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Absolute white"><span class="color-swatch" style="background:#fcfcfc"></span><span class="color-name">Absolute white</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Ash"><span class="color-swatch" style="background:#b2beb5"></span><span class="color-name">Ash</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Natural"><span class="color-swatch" style="background:#f5f5dc"></span><span class="color-name">Natural</span></label>
                     </div>
 
-                    <span class="color-group-tag">Gama de Azules</span>
+                    <span class="color-group-tag">Fila 2: Cálidos y Rojos</span>
                     <div class="color-grid">
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Marino"><span class="color-swatch" style="background:#1e3a8a"></span><span class="color-name">Marino</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Royal"><span class="color-swatch" style="background:#2563eb"></span><span class="color-name">Royal</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Celeste"><span class="color-swatch" style="background:#bae6fd"></span><span class="color-name">Celeste</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Sky Blue"><span class="color-swatch" style="background:#7dd3fc"></span><span class="color-name">Sky Blue</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Arena"><span class="color-swatch" style="background:#c2b280"></span><span class="color-name">Arena</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Amarillo pálido"><span class="color-swatch" style="background:#fff9e3"></span><span class="color-name">Amarillo pálido</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Limón"><span class="color-swatch" style="background:#faff00"></span><span class="color-name">Limón</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Amarillo"><span class="color-swatch" style="background:#ffd700"></span><span class="color-name">Amarillo</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Albaricoque"><span class="color-swatch" style="background:#ffb07c"></span><span class="color-name">Albaricoque</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Naranja"><span class="color-swatch" style="background:#ff8c00"></span><span class="color-name">Naranja</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Rojo"><span class="color-swatch" style="background:#ff0000"></span><span class="color-name">Rojo</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Rojo tango"><span class="color-swatch" style="background:#ed1c24"></span><span class="color-name">Rojo tango</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Burdeos"><span class="color-swatch" style="background:#800020"></span><span class="color-name">Burdeos</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Rosa pálido"><span class="color-swatch" style="background:#ffd1dc"></span><span class="color-name">Rosa pálido</span></label>
                     </div>
 
-                    <span class="color-group-tag">Rojos y Rosas</span>
+                    <span class="color-group-tag">Fila 3: Rosas, Morados y Aqua</span>
                     <div class="color-grid">
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Rojo"><span class="color-swatch" style="background:#dc2626"></span><span class="color-name">Rojo</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Granate"><span class="color-swatch" style="background:#991b1b"></span><span class="color-name">Granate</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Burdeos"><span class="color-swatch" style="background:#7f1d1d"></span><span class="color-name">Burdeos</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Rosa Claro"><span class="color-swatch" style="background:#fbcfe8"></span><span class="color-name">Rosa Pale</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Rosa medio"><span class="color-swatch" style="background:#ffb6c1"></span><span class="color-name">Rosa medio</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Rosa orquídea"><span class="color-swatch" style="background:#da70d6"></span><span class="color-name">Rosa orquídea</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Fucsia"><span class="color-swatch" style="background:#ff00ff"></span><span class="color-name">Fucsia</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Morado claro"><span class="color-swatch" style="background:#d8bfd8"></span><span class="color-name">Morado claro</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Morado oscuro"><span class="color-swatch" style="background:#4b0082"></span><span class="color-name">Morado oscuro</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Azul cielo"><span class="color-swatch" style="background:#87ceeb"></span><span class="color-name">Azul cielo</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Azul atolón"><span class="color-swatch" style="background:#00ced1"></span><span class="color-name">Azul atolón</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Aqua"><span class="color-swatch" style="background:#00ffff"></span><span class="color-name">Aqua</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Azul royal"><span class="color-swatch" style="background:#4169e1"></span><span class="color-name">Azul royal</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Azul duck"><span class="color-swatch" style="background:#008b8b"></span><span class="color-name">Azul duck</span></label>
                     </div>
 
-                    <span class="color-group-tag">Verdes y Tierras</span>
+                    <span class="color-group-tag">Fila 4: Azules y Verdes</span>
                     <div class="color-grid">
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Botella"><span class="color-swatch" style="background:#064e3b"></span><span class="color-name">V. Botella</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Kelly"><span class="color-swatch" style="background:#16a34a"></span><span class="color-name">V. Kelly</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Arena"><span class="color-swatch" style="background:#e7e5e4"></span><span class="color-name">Arena</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Chocolate"><span class="color-swatch" style="background:#451a03"></span><span class="color-name">Chocolate</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Denim"><span class="color-swatch" style="background:#1560bd"></span><span class="color-name">Denim</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Azul marino"><span class="color-swatch" style="background:#000080"></span><span class="color-name">Azul marino</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="French marino"><span class="color-swatch" style="background:#003399"></span><span class="color-name">French marino</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Tilo"><span class="color-swatch" style="background:#94bc8d"></span><span class="color-name">Tilo</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Verde manzana"><span class="color-swatch" style="background:#8db600"></span><span class="color-name">Verde manzana</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Lima"><span class="color-swatch" style="background:#32cd32"></span><span class="color-name">Lima</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Esmeralda"><span class="color-swatch" style="background:#50c878"></span><span class="color-name">Esmeralda</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Verde pradera"><span class="color-swatch" style="background:#228b22"></span><span class="color-name">Verde pradera</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Verde botella"><span class="color-swatch" style="background:#006a4e"></span><span class="color-name">Verde botella</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Caqui"><span class="color-swatch" style="background:#c3b091"></span><span class="color-name">Caqui</span></label>
                     </div>
 
-                    <span class="color-group-tag">Especiales</span>
+                    <span class="color-group-tag">Fila 5: Otros Tonos</span>
                     <div class="color-grid">
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Morado"><span class="color-swatch" style="background:#6d28d9"></span><span class="color-name">Morado</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Berenjena"><span class="color-swatch" style="background:#4c1d95"></span><span class="color-name">Berenjena</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Oro"><span class="color-swatch" style="background:#fbbf24"></span><span class="color-name">Oro</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Zinc"><span class="color-swatch" style="background:#7d7d7d"></span><span class="color-name">Zinc</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Army"><span class="color-swatch" style="background:#4b5320"></span><span class="color-name">Army</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Chocolate"><span class="color-swatch" style="background:#7b3f00"></span><span class="color-name">Chocolate</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Tierra"><span class="color-swatch" style="background:#a26a42"></span><span class="color-name">Tierra</span></label>
                     </div>
                 </div>
 
                 <!-- 03: Tallas -->
                 <div class="section">
-                    <div class="section-title"><div class="step-num">3</div> Tallas</div>
+                    <div class="section-title"><div class="step-num">3</div> Cantidades</div>
                     <div class="size-grid">
                         <div class="size-box"><span>XS</span><input type="number" name="XS" value="0" min="0" class="qty-in"></div>
                         <div class="size-box"><span>S</span><input type="number" name="S" value="0" min="0" class="qty-in"></div>
@@ -302,69 +324,71 @@
                     </div>
                 </div>
 
-                <!-- 04: Personalización -->
+                <!-- 04: WhatsApp y Personalización -->
                 <div class="section">
-                    <div class="section-title"><div class="step-num">4</div> Personalización</div>
+                    <div class="section-title"><div class="step-num">4</div> Diseño y Arte</div>
                     <div class="grid">
                         <div class="form-group">
-                            <label>Zona de Estampado</label>
+                            <label>Ubicación de Impresión</label>
                             <select name="Ubicacion">
-                                <option value="Pecho">Pecho Izquierdo (Mini)</option>
-                                <option value="Centro">Pecho Central (Grande)</option>
+                                <option value="Pecho Izq">Pecho Izquierdo (Discreto)</option>
+                                <option value="Pecho Centro">Pecho Central (Principal)</option>
                                 <option value="Espalda">Espalda Completa</option>
-                                <option value="Mangas">Mangas</option>
+                                <option value="Manga">Personalización en Manga</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Color del Diseño</label>
-                            <input type="text" name="Color_Tinta" placeholder="Ej: Blanco Hielo" required>
+                            <label>Tinta / Color del Diseño</label>
+                            <input type="text" name="Color_Tinta" placeholder="Ej: Blanco óptico / Pantone 281" required>
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label>Sube tus Logos o Bocetos (Máximo 5MB por foto / 15MB total)</label>
-                        <div class="drop-zone" id="dropZone">
-                            <input type="file" id="fileInput" accept="image/*" multiple>
-                            <div id="dropContent">
-                                <span class="drop-icon">📸</span>
-                                <p><strong>Pulsa para añadir fotos</strong></p>
-                                <p style="font-size:0.8rem; opacity:0.6">Se limpian nombres raros al enviar</p>
+                        <label>Envío Obligatorio del Diseño</label>
+                        <div class="whatsapp-box">
+                            <div class="wa-icon-container">
+                                <span class="wa-icon">🟢</span>
                             </div>
-                            <div id="fileCounter" class="file-counter">0 archivos listos</div>
+                            <div class="wa-content">
+                                <p class="wa-title">¡DISEÑO VÍA WHATSAPP!</p>
+                                <p class="wa-text">Para asegurar la máxima calidad, envíanos tus logos o bocetos directamente aquí:</p>
+                                <a href="https://wa.me/34614683073" target="_blank" class="wa-link">
+                                    Enviar a +34 614 68 30 73
+                                </a>
+                            </div>
                         </div>
-                        <div class="preview-grid" id="previewGallery"></div>
                     </div>
                 </div>
 
                 <div class="section">
-                    <label>Instrucciones de locura</label>
-                    <textarea name="Mensaje" rows="5" placeholder="¿Nombres en la espalda? ¿Algún detalle específico? Suéltalo aquí..."></textarea>
+                    <label>Observaciones de Gestión</label>
+                    <textarea name="Mensaje" rows="4" placeholder="Indique plazos de entrega, listados de nombres o requerimientos especiales."></textarea>
                     
                     <div class="footer-summary">
-                        <span>Prendas totales:</span>
-                        <span class="total-amount" id="totalCount">0</span>
+                        <div>
+                            <p class="summary-label">Total Unidades</p>
+                            <span class="total-amount" id="totalCount">0</span>
+                        </div>
+                        <button type="submit" class="btn-send" id="submitBtn">Formalizar Solicitud</button>
                     </div>
-
-                    <button type="submit" class="btn-send" id="submitBtn">Enviar Pedido</button>
                 </div>
             </div>
         </form>
     </div>
 
     <script>
-        const MAX_FILE_SIZE = 5 * 1024 * 1024; 
-        const MAX_TOTAL_SIZE = 15 * 1024 * 1024; 
-        
         const inputs = document.querySelectorAll('.qty-in');
         const totalDisplay = document.getElementById('totalCount');
-        const fileInput = document.getElementById('fileInput');
-        const gallery = document.getElementById('previewGallery');
-        const counter = document.getElementById('fileCounter');
-        const dropZone = document.getElementById('dropZone');
         const submitBtn = document.getElementById('submitBtn');
         const form = document.getElementById('mainForm');
+        const notification = document.getElementById('notification');
 
-        let selectedFiles = []; 
+        function showMsg(text, isError = false) {
+            notification.innerText = text;
+            notification.style.borderLeftColor = isError ? '#f43f5e' : '#25D366';
+            notification.classList.add('show');
+            setTimeout(() => notification.classList.remove('show'), 5000);
+        }
 
         function updateTotal() {
             let t = 0;
@@ -373,107 +397,28 @@
         }
         inputs.forEach(i => i.addEventListener('input', updateTotal));
 
-        function addFiles(files) {
-            let currentTotalSize = selectedFiles.reduce((acc, f) => acc + f.size, 0);
-            Array.from(files).forEach(file => {
-                if (!file.type.startsWith('image/')) return;
-                if (file.size > MAX_FILE_SIZE) {
-                    alert(`"${file.name}" supera los 5MB.`);
-                    return;
-                }
-                if (currentTotalSize + file.size > MAX_TOTAL_SIZE) {
-                    alert(`Límite total de 15MB alcanzado.`);
-                    return;
-                }
-                selectedFiles.push(file);
-                currentTotalSize += file.size;
-            });
-            renderGallery();
-            updateCounter();
-        }
-
-        function removeFile(index) {
-            selectedFiles.splice(index, 1);
-            renderGallery();
-            updateCounter();
-        }
-
-        function renderGallery() {
-            gallery.innerHTML = "";
-            selectedFiles.forEach((file, index) => {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const div = document.createElement('div');
-                    div.className = 'preview-item';
-                    div.innerHTML = `
-                        <button type="button" class="remove-file" onclick="removeFile(${index})">×</button>
-                        <img src="${e.target.result}" class="preview-img">
-                    `;
-                    gallery.appendChild(div);
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-
-        function updateCounter() {
-            const currentMB = (selectedFiles.reduce((acc, f) => acc + f.size, 0) / (1024 * 1024)).toFixed(2);
-            counter.innerText = `${selectedFiles.length} archivos (${currentMB}MB / 15MB)`;
-            counter.className = selectedFiles.length > 0 ? 'file-counter visible' : 'file-counter';
-        }
-
-        fileInput.addEventListener('change', (e) => { addFiles(e.target.files); fileInput.value = ""; });
-        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-        dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); addFiles(e.dataTransfer.files); });
-
-        // --- SOLUCIÓN PARA IMÁGENES DE WHATSAPP ---
         form.addEventListener('submit', async function(e) {
             e.preventDefault(); 
-
             if(parseInt(totalDisplay.innerText) <= 0) {
-                alert("¡Añade al menos una prenda! 💀");
+                showMsg("Debe indicar una cantidad superior a cero.", true);
                 return;
             }
-
-            submitBtn.innerText = "🚀 ENVIANDO TODO...";
+            submitBtn.innerText = "Procesando...";
             submitBtn.disabled = true;
-
             const formData = new FormData(form);
-            
-            // Limpiamos campos previos
-            formData.delete('attachment');
-            formData.delete('attachments');
-
-            // CLAVE: Renombrar los archivos para evitar el error con nombres de WhatsApp
-            selectedFiles.forEach((file, index) => {
-                const fieldName = `attachment${index + 1}`;
-                
-                // Sacamos la extensión real de la imagen
-                const extension = file.name.split('.').pop() || 'jpg';
-                // Creamos un nombre limpio: foto_1.jpg, foto_2.png...
-                const cleanFileName = `diseno_${index + 1}.${extension}`;
-                
-                // Agregamos al FormData con el nuevo nombre "limpio" como tercer parámetro
-                formData.append(fieldName, file, cleanFileName);
-            });
-
             try {
                 const response = await fetch(form.action, {
                     method: 'POST',
                     body: formData,
                     headers: { 'Accept': 'application/json' }
                 });
-
                 if (response.ok) {
-                    alert("¡Pedido enviado con éxito! Los archivos de WhatsApp ya no darán problemas.");
-                    location.reload();
-                } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || "Error en el servidor");
-                }
+                    showMsg("Solicitud enviada correctamente. No olvides el WhatsApp con tu diseño.");
+                    setTimeout(() => location.reload(), 3000);
+                } else { throw new Error(); }
             } catch (err) {
-                alert("Error al enviar: " + err.message + ". Prueba de nuevo.");
-                submitBtn.innerText = "Enviar Pedido";
+                showMsg("Error técnico en el envío. Reintente.", true);
+                submitBtn.innerText = "Formalizar Solicitud";
                 submitBtn.disabled = false;
             }
         });
