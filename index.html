@@ -100,7 +100,7 @@
             transform: translateY(-3px);
         }
 
-        /* --- PALETA DE COLORES --- */
+        /* PALETA DE COLORES */
         .color-group-tag {
             font-size: 0.7rem; font-weight: 900; color: #6366f1; text-transform: uppercase;
             letter-spacing: 0.15em; margin: 30px 0 15px; display: block;
@@ -125,9 +125,9 @@
         .size-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 15px; }
         .size-box { background: #f8fafc; padding: 20px; border-radius: var(--radius-lg); text-align: center; border: 2.5px solid transparent; transition: 0.3s; }
         .size-box span { font-weight: 900; font-size: 1rem; color: var(--text-main); }
-        .size-box input { padding: 10px; margin-top: 10px; border: none; background: transparent; font-weight: 800; text-align: center; font-size: 1.2rem; color: #6366f1; }
+        .size-box input { padding: 10px; margin-top: 10px; border: none; background: transparent; font-weight: 800; text-align: center; font-size: 1.2rem; color: #6366f1; width: 60px; }
 
-        /* --- CARGA DE ARCHIVOS MULTI-ADD --- */
+        /* CARGA DE ARCHIVOS */
         .drop-zone {
             border: 3px dashed #e2e8f0; 
             border-radius: var(--radius-lg); 
@@ -223,6 +223,7 @@
             <p>Diseño salvaje. Calidad de locos.</p>
         </header>
 
+        <!-- FormSubmit endpoint con tu email -->
         <form id="mainForm" action="https://formsubmit.co/malasanapedro@gmail.com" method="POST" enctype="multipart/form-data">
             
             <input type="hidden" name="_subject" value="🔥 NUEVO PEDIDO TOP - CustomTee">
@@ -306,7 +307,7 @@
                     </div>
                 </div>
 
-                <!-- 04: Arte -->
+                <!-- 04: Personalización -->
                 <div class="section">
                     <div class="section-title"><div class="step-num">4</div> Personalización</div>
                     <div class="grid">
@@ -326,13 +327,13 @@
                     </div>
                     
                     <div class="form-group">
-                        <label>Sube tus Logos o Bocetos (Se van acumulando)</label>
+                        <label>Sube tus Logos o Bocetos (Máximo 5MB por foto / 15MB total)</label>
                         <div class="drop-zone" id="dropZone">
                             <input type="file" id="fileInput" accept="image/*" multiple>
                             <div id="dropContent">
                                 <span class="drop-icon">📸</span>
                                 <p><strong>Pulsa para añadir fotos</strong></p>
-                                <p style="font-size:0.8rem; opacity:0.6">Puedes subir varias veces y se guardan todas</p>
+                                <p style="font-size:0.8rem; opacity:0.6">Se guardan automáticamente al subirlas</p>
                             </div>
                             <div id="fileCounter" class="file-counter">0 archivos listos</div>
                         </div>
@@ -357,10 +358,22 @@
     </div>
 
     <script>
-        // Cálculo de totales
+        // CONFIGURACIÓN DE LÍMITES (Basados en restricciones de FormSubmit y email)
+        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB por archivo
+        const MAX_TOTAL_SIZE = 15 * 1024 * 1024; // 15MB total del envío
+        
         const inputs = document.querySelectorAll('.qty-in');
         const totalDisplay = document.getElementById('totalCount');
+        const fileInput = document.getElementById('fileInput');
+        const gallery = document.getElementById('previewGallery');
+        const counter = document.getElementById('fileCounter');
+        const dropZone = document.getElementById('dropZone');
+        const submitBtn = document.getElementById('submitBtn');
+        const form = document.getElementById('mainForm');
 
+        let selectedFiles = []; // Almacén de archivos validados
+
+        // 1. Cálculo de totales
         function updateTotal() {
             let t = 0;
             inputs.forEach(i => t += (parseInt(i.value) || 0));
@@ -368,35 +381,32 @@
         }
         inputs.forEach(i => i.addEventListener('input', updateTotal));
 
-        // --- SISTEMA DE ALMACÉN DE ARCHIVOS ---
-        let selectedFiles = []; // Aquí guardamos TODO lo que el usuario suba
-        const fileInput = document.getElementById('fileInput');
-        const gallery = document.getElementById('previewGallery');
-        const counter = document.getElementById('fileCounter');
-        const dropZone = document.getElementById('dropZone');
-
-        // Escuchar cuando eligen archivos
-        fileInput.addEventListener('change', (e) => {
-            const newFiles = Array.from(e.target.files);
-            addFiles(newFiles);
-            fileInput.value = ""; // Limpiar input para permitir subir el mismo archivo si quieren
-        });
-
-        // Drag & Drop
-        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            addFiles(Array.from(e.dataTransfer.files));
-        });
-
+        // 2. Gestión de archivos con validación de tamaño
         function addFiles(files) {
-            files.forEach(file => {
-                if (file.type.startsWith('image/')) {
-                    selectedFiles.push(file);
-                    renderGallery();
+            let currentTotalSize = selectedFiles.reduce((acc, f) => acc + f.size, 0);
+
+            Array.from(files).forEach(file => {
+                // Verificar si es imagen
+                if (!file.type.startsWith('image/')) {
+                    alert(`El archivo "${file.name}" no es una imagen.`);
+                    return;
                 }
+
+                // Verificar límite individual (5MB)
+                if (file.size > MAX_FILE_SIZE) {
+                    alert(`La imagen "${file.name}" pesa demasiado (${(file.size / (1024 * 1024)).toFixed(2)}MB). El máximo por foto es 5MB.`);
+                    return;
+                }
+
+                // Verificar límite total acumulado (15MB)
+                if (currentTotalSize + file.size > MAX_TOTAL_SIZE) {
+                    alert(`No se pudo añadir "${file.name}". Se superaría el límite total de 15MB para el envío.`);
+                    return;
+                }
+
+                selectedFiles.push(file);
+                currentTotalSize += file.size;
+                renderGallery();
             });
             updateCounter();
         }
@@ -425,32 +435,46 @@
         }
 
         function updateCounter() {
-            counter.innerText = `${selectedFiles.length} archivos listos`;
+            const currentTotalMB = (selectedFiles.reduce((acc, f) => acc + f.size, 0) / (1024 * 1024)).toFixed(2);
+            counter.innerText = `${selectedFiles.length} archivos (${currentTotalMB}MB / 15MB)`;
             counter.className = selectedFiles.length > 0 ? 'file-counter visible' : 'file-counter';
         }
 
-        // --- ENVÍO ESPECIAL ---
-        const form = document.getElementById('mainForm');
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault(); // Paramos el envío normal
+        // Eventos de Input
+        fileInput.addEventListener('change', (e) => {
+            addFiles(e.target.files);
+            fileInput.value = ""; // Reset para permitir re-subir el mismo archivo si se borró
+        });
 
-            const total = parseInt(totalDisplay.innerText);
-            if(total <= 0) {
-                alert("Otman dice: ¡Añade al menos una prenda! 💀");
+        // Drag & Drop logic
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            addFiles(e.dataTransfer.files);
+        });
+
+        // 3. Envío del Formulario
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault(); 
+
+            const totalPrendas = parseInt(totalDisplay.innerText);
+            if(totalPrendas <= 0) {
+                alert("Otman dice: ¡Añade al menos una prenda para poder fabricarla! 💀");
                 return;
             }
 
-            const btn = document.getElementById('submitBtn');
-            btn.innerText = "🚀 ENVIANDO TODO...";
-            btn.disabled = true;
+            submitBtn.innerText = "🚀 ENVIANDO A PRODUCCIÓN...";
+            submitBtn.disabled = true;
 
-            // Preparamos los datos reales (FormData)
             const formData = new FormData(form);
             
-            // Borramos el campo original de archivos si existe y metemos los del almacén
+            // Eliminamos el campo 'attachments' por defecto (si lo hubiera) 
+            // y añadimos los archivos del almacén validados
             formData.delete('attachments'); 
             selectedFiles.forEach(file => {
-                formData.append('attachments', file);
+                formData.append('attachment', file); // 'attachment' es el nombre que espera FormSubmit para archivos
             });
 
             try {
@@ -461,15 +485,15 @@
                 });
 
                 if (response.ok) {
-                    alert("¡Pedido enviado con éxito, Otman! Revisa tu email.");
+                    alert("¡Pedido enviado con éxito! Revisa tu email para la confirmación.");
                     location.reload();
                 } else {
-                    throw new Error();
+                    throw new Error("Respuesta del servidor no válida");
                 }
             } catch (err) {
-                alert("Algo ha fallado al enviar. Prueba otra vez.");
-                btn.innerText = "Enviar Pedido";
-                btn.disabled = false;
+                alert("Ha habido un problema al enviar el pedido. Asegúrate de que las fotos no sean extremadamente pesadas.");
+                submitBtn.innerText = "Enviar Pedido";
+                submitBtn.disabled = false;
             }
         });
     </script>
