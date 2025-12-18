@@ -223,7 +223,7 @@
             <p>Diseño salvaje. Calidad de locos.</p>
         </header>
 
-        <!-- FormSubmit endpoint con tu email -->
+        <!-- FormSubmit endpoint -->
         <form id="mainForm" action="https://formsubmit.co/malasanapedro@gmail.com" method="POST" enctype="multipart/form-data">
             
             <input type="hidden" name="_subject" value="🔥 NUEVO PEDIDO TOP - CustomTee">
@@ -358,9 +358,9 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN DE LÍMITES (Basados en restricciones de FormSubmit y email)
+        // CONFIGURACIÓN DE LÍMITES
         const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB por archivo
-        const MAX_TOTAL_SIZE = 15 * 1024 * 1024; // 15MB total del envío
+        const MAX_TOTAL_SIZE = 15 * 1024 * 1024; // 15MB total
         
         const inputs = document.querySelectorAll('.qty-in');
         const totalDisplay = document.getElementById('totalCount');
@@ -371,9 +371,8 @@
         const submitBtn = document.getElementById('submitBtn');
         const form = document.getElementById('mainForm');
 
-        let selectedFiles = []; // Almacén de archivos validados
+        let selectedFiles = []; 
 
-        // 1. Cálculo de totales
         function updateTotal() {
             let t = 0;
             inputs.forEach(i => t += (parseInt(i.value) || 0));
@@ -381,33 +380,26 @@
         }
         inputs.forEach(i => i.addEventListener('input', updateTotal));
 
-        // 2. Gestión de archivos con validación de tamaño
         function addFiles(files) {
             let currentTotalSize = selectedFiles.reduce((acc, f) => acc + f.size, 0);
 
             Array.from(files).forEach(file => {
-                // Verificar si es imagen
-                if (!file.type.startsWith('image/')) {
-                    alert(`El archivo "${file.name}" no es una imagen.`);
-                    return;
-                }
+                if (!file.type.startsWith('image/')) return;
 
-                // Verificar límite individual (5MB)
                 if (file.size > MAX_FILE_SIZE) {
-                    alert(`La imagen "${file.name}" pesa demasiado (${(file.size / (1024 * 1024)).toFixed(2)}MB). El máximo por foto es 5MB.`);
+                    alert(`"${file.name}" supera los 5MB.`);
                     return;
                 }
 
-                // Verificar límite total acumulado (15MB)
                 if (currentTotalSize + file.size > MAX_TOTAL_SIZE) {
-                    alert(`No se pudo añadir "${file.name}". Se superaría el límite total de 15MB para el envío.`);
+                    alert(`Límite total de 15MB alcanzado.`);
                     return;
                 }
 
                 selectedFiles.push(file);
                 currentTotalSize += file.size;
-                renderGallery();
             });
+            renderGallery();
             updateCounter();
         }
 
@@ -435,18 +427,16 @@
         }
 
         function updateCounter() {
-            const currentTotalMB = (selectedFiles.reduce((acc, f) => acc + f.size, 0) / (1024 * 1024)).toFixed(2);
-            counter.innerText = `${selectedFiles.length} archivos (${currentTotalMB}MB / 15MB)`;
+            const currentMB = (selectedFiles.reduce((acc, f) => acc + f.size, 0) / (1024 * 1024)).toFixed(2);
+            counter.innerText = `${selectedFiles.length} archivos (${currentMB}MB / 15MB)`;
             counter.className = selectedFiles.length > 0 ? 'file-counter visible' : 'file-counter';
         }
 
-        // Eventos de Input
         fileInput.addEventListener('change', (e) => {
             addFiles(e.target.files);
-            fileInput.value = ""; // Reset para permitir re-subir el mismo archivo si se borró
+            fileInput.value = ""; 
         });
 
-        // Drag & Drop logic
         dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
         dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
         dropZone.addEventListener('drop', (e) => {
@@ -455,26 +445,28 @@
             addFiles(e.dataTransfer.files);
         });
 
-        // 3. Envío del Formulario
+        // --- SOLUCIÓN PARA ENVÍO MÚLTIPLE ---
         form.addEventListener('submit', async function(e) {
             e.preventDefault(); 
 
-            const totalPrendas = parseInt(totalDisplay.innerText);
-            if(totalPrendas <= 0) {
-                alert("Otman dice: ¡Añade al menos una prenda para poder fabricarla! 💀");
+            if(parseInt(totalDisplay.innerText) <= 0) {
+                alert("¡Añade al menos una prenda! 💀");
                 return;
             }
 
-            submitBtn.innerText = "🚀 ENVIANDO A PRODUCCIÓN...";
+            submitBtn.innerText = "🚀 ENVIANDO TODO...";
             submitBtn.disabled = true;
 
             const formData = new FormData(form);
             
-            // Eliminamos el campo 'attachments' por defecto (si lo hubiera) 
-            // y añadimos los archivos del almacén validados
-            formData.delete('attachments'); 
+            // 1. Limpiamos cualquier rastro de archivos previos en el FormData original
+            formData.delete('attachment');
+            formData.delete('attachments');
+
+            // 2. IMPORTANTE: Para enviar múltiples archivos por AJAX a FormSubmit
+            // agregamos cada uno con el mismo nombre 'attachment'
             selectedFiles.forEach(file => {
-                formData.append('attachment', file); // 'attachment' es el nombre que espera FormSubmit para archivos
+                formData.append('attachment', file);
             });
 
             try {
@@ -485,13 +477,13 @@
                 });
 
                 if (response.ok) {
-                    alert("¡Pedido enviado con éxito! Revisa tu email para la confirmación.");
+                    alert("¡Pedido enviado con éxito! Recibirás todas las imágenes.");
                     location.reload();
                 } else {
-                    throw new Error("Respuesta del servidor no válida");
+                    throw new Error();
                 }
             } catch (err) {
-                alert("Ha habido un problema al enviar el pedido. Asegúrate de que las fotos no sean extremadamente pesadas.");
+                alert("Error al enviar. Prueba con fotos más pequeñas.");
                 submitBtn.innerText = "Enviar Pedido";
                 submitBtn.disabled = false;
             }
