@@ -219,7 +219,6 @@
             <p>Diseño salvaje. Calidad de locos.</p>
         </header>
 
-        <!-- Usamos el endpoint AJAX oficial para mayor fiabilidad -->
         <form id="mainForm" action="https://formsubmit.co/ajax/malasanapedro@gmail.com" method="POST" enctype="multipart/form-data">
             
             <input type="hidden" name="_subject" value="🔥 NUEVO PEDIDO TOP - CustomTee">
@@ -329,7 +328,7 @@
                             <div id="dropContent">
                                 <span class="drop-icon">📸</span>
                                 <p><strong>Pulsa para añadir fotos</strong></p>
-                                <p style="font-size:0.8rem; opacity:0.6">Se guardan automáticamente al subirlas</p>
+                                <p style="font-size:0.8rem; opacity:0.6">Se limpian nombres raros al enviar</p>
                             </div>
                             <div id="fileCounter" class="file-counter">0 archivos listos</div>
                         </div>
@@ -427,7 +426,7 @@
         dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
         dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); addFiles(e.dataTransfer.files); });
 
-        // --- ENVÍO DEFINITIVO PARA MÚLTIPLES FOTOS ---
+        // --- SOLUCIÓN PARA IMÁGENES DE WHATSAPP ---
         form.addEventListener('submit', async function(e) {
             e.preventDefault(); 
 
@@ -441,15 +440,21 @@
 
             const formData = new FormData(form);
             
-            // Limpieza de campos previos
+            // Limpiamos campos previos
             formData.delete('attachment');
             formData.delete('attachments');
 
-            // Numeración de campos para que FormSubmit no los ignore
-            // Foto 1 -> attachment1, Foto 2 -> attachment2, etc.
+            // CLAVE: Renombrar los archivos para evitar el error con nombres de WhatsApp
             selectedFiles.forEach((file, index) => {
                 const fieldName = `attachment${index + 1}`;
-                formData.append(fieldName, file);
+                
+                // Sacamos la extensión real de la imagen
+                const extension = file.name.split('.').pop() || 'jpg';
+                // Creamos un nombre limpio: foto_1.jpg, foto_2.png...
+                const cleanFileName = `diseno_${index + 1}.${extension}`;
+                
+                // Agregamos al FormData con el nuevo nombre "limpio" como tercer parámetro
+                formData.append(fieldName, file, cleanFileName);
             });
 
             try {
@@ -460,14 +465,14 @@
                 });
 
                 if (response.ok) {
-                    alert("¡Pedido enviado con éxito! Te llegarán todas las fotos adjuntas.");
+                    alert("¡Pedido enviado con éxito! Los archivos de WhatsApp ya no darán problemas.");
                     location.reload();
                 } else {
                     const errorData = await response.json();
-                    throw new Error(errorData.message || "Error desconocido");
+                    throw new Error(errorData.message || "Error en el servidor");
                 }
             } catch (err) {
-                alert("Error al enviar: " + err.message + ". Prueba con menos fotos.");
+                alert("Error al enviar: " + err.message + ". Prueba de nuevo.");
                 submitBtn.innerText = "Enviar Pedido";
                 submitBtn.disabled = false;
             }
