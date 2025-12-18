@@ -124,14 +124,43 @@
         }
         .color-name { font-size: 0.6rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; display: block; line-height: 1.2; height: 2.4em; overflow: hidden; }
 
-        /* Tallas */
-        .size-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(75px, 1fr)); gap: 10px; }
-        .size-box { background: #f8fafc; padding: 12px; border-radius: var(--radius-lg); text-align: center; border: 1px solid var(--border); transition: 0.2s; }
-        .size-box span { font-weight: 800; font-size: 0.85rem; color: var(--text-main); }
-        .size-box input { padding: 4px; margin-top: 4px; border: none; background: transparent; font-weight: 800; text-align: center; font-size: 1rem; color: #6366f1; width: 100%; }
-        .size-box:focus-within { border-color: #6366f1; background: #fff; }
+        /* TALLAS CORREGIDAS (CUADRADO PERFECTO) */
+        .size-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(85px, 1fr)); gap: 12px; }
+        .size-box { 
+            background: #f8fafc; 
+            padding: 12px 5px; 
+            border-radius: var(--radius-lg); 
+            text-align: center; 
+            border: 1.5px solid var(--border); 
+            transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .size-box span { font-weight: 800; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; }
+        .size-box input { 
+            padding: 0; 
+            margin: 0; 
+            border: none; 
+            background: transparent; 
+            font-weight: 800; 
+            text-align: center; 
+            font-size: 1.1rem; 
+            color: #6366f1; 
+            width: 100%; 
+            outline: none;
+        }
+        /* Eliminar flechas de número para centrar el texto */
+        .size-box input::-webkit-outer-spin-button,
+        .size-box input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .size-box input[type=number] { -moz-appearance: textfield; }
 
-        /* SECCIÓN WHATSAPP LLAMATIVA */
+        .size-box:focus-within { border-color: #6366f1; background: #fff; box-shadow: 0 4px 10px rgba(99, 102, 241, 0.1); }
+
+        /* SECCIÓN WHATSAPP */
         .whatsapp-box {
             background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
             color: white;
@@ -141,19 +170,14 @@
             align-items: center;
             gap: 25px;
             box-shadow: 0 15px 30px rgba(37, 211, 102, 0.3);
-            animation: pulse-green 3s infinite;
             border: 2px solid rgba(255, 255, 255, 0.2);
         }
         .wa-icon-container {
             background: white;
-            width: 60px;
-            height: 60px;
+            width: 60px; height: 60px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         .wa-icon { font-size: 2.2rem; }
         .wa-title { font-weight: 900; color: white; margin-bottom: 4px; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 0.02em; }
@@ -171,12 +195,6 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         .wa-link:hover { transform: scale(1.05); background: #f0fdf4; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
-
-        @keyframes pulse-green {
-            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
-        }
 
         /* Resumen Flotante */
         .footer-summary {
@@ -249,7 +267,7 @@
                     <span class="color-group-tag">Fila 1: Neutros y Grises</span>
                     <div class="color-grid">
                         <label class="color-item"><input type="radio" name="Color_Prenda" value="Blanco" checked><span class="color-swatch" style="background:#ffffff"></span><span class="color-name">Blanco</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Negro profundo"><span class="color-swatch" style="background:#000000"></span><span class="color-name">Negro profundo</span></label>
+                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Negro profundo"><span class="color-swatch" style="background:#000000"></span><span class="color-name">Negro</span></label>
                         <label class="color-item"><input type="radio" name="Color_Prenda" value="Gris puro"><span class="color-swatch" style="background:#808080"></span><span class="color-name">Gris puro</span></label>
                         <label class="color-item"><input type="radio" name="Color_Prenda" value="Gris claro"><span class="color-swatch" style="background:#d3d3d3"></span><span class="color-name">Gris claro</span></label>
                         <label class="color-item"><input type="radio" name="Color_Prenda" value="Gris mezcla"><span class="color-swatch" style="background:#b0b0b0"></span><span class="color-name">Gris mezcla</span></label>
@@ -311,7 +329,7 @@
                     </div>
                 </div>
 
-                <!-- 03: Tallas -->
+                <!-- 03: Tallas Cuadradas -->
                 <div class="section">
                     <div class="section-title"><div class="step-num">3</div> Cantidades</div>
                     <div class="size-grid">
