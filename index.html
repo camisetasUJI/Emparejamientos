@@ -291,8 +291,9 @@
                             <div class="size-box"><span>L</span><small class="size-measures">54x73cm</small><input type="number" name="Basic_L" min="0" class="qty-in basic-qty"></div>
                             <div class="size-box"><span>XL</span><small class="size-measures">58x75cm</small><input type="number" name="Basic_XL" min="0" class="qty-in basic-qty"></div>
                             <div class="size-box"><span>XXL</span><small class="size-measures">62x77cm</small><input type="number" name="Basic_XXL" min="0" class="qty-in basic-qty"></div>
-                        <div class="size-box"><span>3XL</span><small class="size-measures">66x79cm</small><input type="number" name="Basic_3XL" min="0" class="qty-in premium-qty"></div>
-                           <div class="size-box"><span>4XL</span><small class="size-measures">70x81cm</small><input type="number" name="Basic_4XL" min="0" class="qty-in premium-qty"></div
+                            <!-- Corrección aquí: Clases cambiadas a basic-qty y cierre de div arreglado -->
+                            <div class="size-box"><span>3XL</span><small class="size-measures">66x79cm</small><input type="number" name="Basic_3XL" min="0" class="qty-in basic-qty"></div>
+                            <div class="size-box"><span>4XL</span><small class="size-measures">70x81cm</small><input type="number" name="Basic_4XL" min="0" class="qty-in basic-qty"></div>
                         </div>
                     </div>
 
@@ -435,6 +436,7 @@
                 btnPremium.classList.remove('active');
                 contentBasic.classList.add('active');
                 contentPremium.classList.remove('active');
+                // Limpia los inputs del otro tipo para no sumar doble
                 document.querySelectorAll('.premium-qty').forEach(i => i.value = '');
             } else {
                 btnPremium.classList.add('active');
@@ -456,7 +458,9 @@
 
         function updateTotal() {
             let totalQty = 0;
+            // Selecciona solo los inputs del tipo activo
             const selector = currentType === 'BASIC' ? '.basic-qty' : '.premium-qty';
+            
             document.querySelectorAll(selector).forEach(input => {
                 totalQty += parseInt(input.value) || 0;
             });
