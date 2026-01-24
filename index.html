@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CustomTee — Gestión de Pedidos Universitarios</title>
+    <title>CustomTee — Pedidos Universitarios</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -16,12 +16,12 @@
             --bg: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #0f172a;
-            --text-soft: #4f46e5;
-            --text-muted: #94a3b8;
+            --text-muted: #64748b;
             --border: #e2e8f0;
             --radius-xl: 24px;
             --radius-lg: 14px;
             --shadow-vibe: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,13 +40,7 @@
         .container { max-width: 850px; margin: 40px auto; }
         
         .header { text-align: left; margin-bottom: 40px; border-left: 5px solid #6366f1; padding-left: 20px; }
-        .header h1 { 
-            font-size: 2.5rem; 
-            font-weight: 800; 
-            color: var(--text-main);
-            letter-spacing: -0.04em;
-            margin-bottom: 5px;
-        }
+        .header h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.04em; margin-bottom: 5px; }
         .header p { color: var(--text-muted); font-weight: 500; font-size: 1.1rem; }
 
         .card { 
@@ -57,30 +51,77 @@
             border: 1px solid var(--border);
         }
 
-        .section { margin-bottom: 50px; animation: fadeIn 0.6s ease-out both; }
+        .section { margin-bottom: 50px; }
         .section-title { 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            margin-bottom: 30px; 
-            font-size: 1.4rem; 
-            font-weight: 800;
-            letter-spacing: -0.02em;
+            display: flex; align-items: center; gap: 12px; 
+            margin-bottom: 30px; font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em; 
         }
 
         .step-num {
-            background: var(--primary-gradient);
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            font-weight: 700;
+            background: var(--primary-gradient); color: white;
+            width: 32px; height: 32px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; font-weight: 700;
         }
 
+        /* --- SELECTOR DE TIPO DE CAMISETA --- */
+        .product-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+            background: #f1f5f9;
+            padding: 8px;
+            border-radius: 16px;
+        }
+
+        .type-btn {
+            padding: 20px;
+            border: 2px solid transparent;
+            background: transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+            opacity: 0.6;
+            position: relative;
+        }
+        
+        .type-btn h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 4px; color: var(--text-main); }
+        .type-btn p { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+        .price-tag { 
+            display: inline-block; background: #e2e8f0; color: #475569; 
+            padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; margin-top: 8px;
+        }
+
+        .type-btn.active {
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-color: #6366f1;
+            opacity: 1;
+        }
+        .type-btn.active h3 { color: #6366f1; }
+        .type-btn.active .price-tag { background: #e0e7ff; color: #4338ca; }
+
+        /* CONTENIDO DINÁMICO */
+        .dynamic-content { display: none; animation: slideDown 0.4s ease-out; }
+        .dynamic-content.active { display: block; }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ESPECIFICACIONES TÉCNICAS */
+        .specs-box {
+            background: #f8fafc; border: 1px dashed var(--border);
+            padding: 15px; border-radius: 12px; margin-bottom: 25px;
+            font-size: 0.85rem; color: var(--text-muted); display: flex; gap: 15px;
+        }
+        .spec-item { display: flex; align-items: center; gap: 6px; font-weight: 600; }
+        .spec-icon { color: #6366f1; }
+
+        /* GRIDS Y INPUTS */
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
         @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } .card { padding: 25px; } .header h1 { font-size: 2rem; } }
 
@@ -89,183 +130,82 @@
 
         input, select, textarea {
             width: 100%; padding: 14px; border: 1.5px solid var(--border); border-radius: var(--radius-lg);
-            font-size: 1rem; transition: all 0.2s ease; font-family: inherit;
+            font-size: 1rem; transition: var(--transition); font-family: inherit;
             background: #fff; color: var(--text-main);
         }
         input:focus, select:focus, textarea:focus { 
-            border-color: #6366f1; 
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); 
-            outline: none; 
+            border-color: #6366f1; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); outline: none; 
         }
+        input[type="checkbox"] { width: auto; margin-right: 10px; }
 
-        /* GUÍA DE TALLAS */
-        .size-guide-vibe {
-            background: #f1f5f9;
-            border-radius: var(--radius-lg);
-            padding: 25px;
-            margin-bottom: 25px;
-            display: flex;
-            gap: 30px;
-            align-items: center;
-            flex-wrap: wrap;
-            border: 1px solid var(--border);
-        }
-
-        .size-visual-vibe {
-            flex: 1;
-            min-width: 150px;
-            display: flex;
-            justify-content: center;
-        }
-
-        svg.t-shirt-vibe { width: 100px; height: auto; }
-        .measure-line { stroke: var(--accent); stroke-width: 2.5; stroke-dasharray: 4; }
-        .measure-text { fill: var(--accent); font-size: 10px; font-weight: 800; }
-
-        .size-table-vibe {
-            flex: 2;
-            min-width: 250px;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-        .size-table-vibe th { text-align: left; color: var(--text-muted); padding: 8px; border-bottom: 2px solid var(--border); }
-        .size-table-vibe td { padding: 8px; border-bottom: 1px solid var(--border); font-weight: 700; }
-        .val-highlight { color: #6366f1; }
-
-        .size-tip-vibe {
-            width: 100%;
-            background: white;
-            padding: 12px 18px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            border-left: 4px solid var(--accent);
-            color: var(--text-main);
-            font-weight: 500;
-        }
-
-        /* CATÁLOGO CROMÁTICO */
+        /* COLORES */
         .color-group-tag {
             font-size: 0.7rem; font-weight: 800; color: #6366f1; text-transform: uppercase;
-            letter-spacing: 0.1em; margin: 30px 0 15px; display: block;
-            background: #f1f5f9; width: fit-content; padding: 3px 10px; border-radius: 4px;
+            letter-spacing: 0.1em; margin: 25px 0 12px; display: block;
         }
-        .color-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); 
-            gap: 12px; 
-        }
-        .color-item { position: relative; cursor: pointer; text-align: center; }
+        .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 10px; }
+        .color-item { cursor: pointer; text-align: center; }
         .color-item input { position: absolute; opacity: 0; }
         .color-swatch { 
-            width: 44px; height: 44px; border-radius: 10px; border: 2px solid #fff; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: block; margin: 0 auto 8px; 
-            transition: all 0.2s ease;
-            outline: 1px solid var(--border);
+            width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.1); 
+            display: block; margin: 0 auto 6px; transition: var(--transition);
         }
         .color-item input:checked + .color-swatch { 
-            transform: scale(1.15);
-            box-shadow: 0 0 0 3px #6366f1; 
-            outline: none;
+            transform: scale(1.2); box-shadow: 0 0 0 3px #6366f1; border-color: transparent;
         }
-        .color-name { font-size: 0.6rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; display: block; line-height: 1.2; height: 2.4em; overflow: hidden; }
+        .color-name { font-size: 0.65rem; font-weight: 700; color: var(--text-main); line-height: 1.1; }
 
         /* TALLAS */
-        .size-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(85px, 1fr)); gap: 12px; }
+        .size-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(85px, 1fr)); gap: 10px; margin-top: 20px; }
         .size-box { 
-            background: #f8fafc; 
-            padding: 12px 5px; 
-            border-radius: var(--radius-lg); 
-            text-align: center; 
-            border: 1.5px solid var(--border); 
-            transition: 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background: #f8fafc; padding: 10px 5px; border-radius: 12px; 
+            text-align: center; border: 1px solid var(--border); transition: 0.2s;
         }
-        .size-box span { font-weight: 800; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; }
+        .size-box span { font-weight: 800; font-size: 0.85rem; color: var(--text-main); display: block; margin-bottom: 2px; }
+        .size-measures { display: block; font-size: 0.65rem; color: var(--text-muted); font-weight: 600; margin-bottom: 6px; }
         .size-box input { 
-            padding: 0; 
-            margin: 0; 
-            border: none; 
-            background: transparent; 
-            font-weight: 800; 
-            text-align: center; 
-            font-size: 1.1rem; 
-            color: #6366f1; 
-            width: 100%; 
-            outline: none;
+            padding: 0; margin: 0; border: none; background: transparent; 
+            font-weight: 800; text-align: center; font-size: 1.1rem; color: #6366f1; width: 100%; outline: none; box-shadow: none;
         }
-        .size-box input::-webkit-outer-spin-button,
-        .size-box input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        .size-box input[type=number] { -moz-appearance: textfield; }
-
         .size-box:focus-within { border-color: #6366f1; background: #fff; box-shadow: 0 4px 10px rgba(99, 102, 241, 0.1); }
+        .size-box input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
 
-        /* WHATSAPP */
+        /* WHATSAPP Y FOOTER */
         .whatsapp-box {
-            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-            color: white;
-            padding: 30px; 
-            border-radius: var(--radius-lg); 
-            display: flex;
-            align-items: center;
-            gap: 25px;
-            box-shadow: 0 15px 30px rgba(37, 211, 102, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: white;
+            padding: 25px; border-radius: var(--radius-lg); display: flex; align-items: center; gap: 20px;
+            margin-top: 30px;
         }
-        .wa-icon-container {
-            background: white;
-            width: 60px; height: 60px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .wa-icon { font-size: 2.2rem; }
-        .wa-title { font-weight: 900; color: white; margin-bottom: 4px; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 0.02em; }
-        .wa-text { font-size: 0.9rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 15px; font-weight: 500; }
         .wa-link { 
-            display: inline-block; 
-            background: white; 
-            color: var(--whatsapp-dark); 
-            padding: 12px 24px; 
-            border-radius: 10px; 
-            text-decoration: none; 
-            font-weight: 800; 
-            font-size: 1rem; 
-            transition: 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background: white; color: var(--whatsapp-dark); padding: 10px 20px; 
+            border-radius: 8px; text-decoration: none; font-weight: 800; 
         }
-        .wa-link:hover { transform: scale(1.05); }
-
-        /* Resumen Flotante */
+        
         .footer-summary {
             position: sticky; bottom: 20px; background: #0f172a; color: white;
-            padding: 15px 30px; border-radius: 16px; display: flex; justify-content: space-between;
-            align-items: center; margin-top: 40px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
-            z-index: 100;
+            padding: 20px 30px; border-radius: 16px; display: flex; justify-content: space-between;
+            align-items: center; margin-top: 40px; z-index: 100; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            flex-wrap: wrap; gap: 15px;
         }
-        .total-amount { font-size: 1.8rem; font-weight: 800; color: #a855f7; }
-        .summary-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; }
-
+        .summary-info { display: flex; gap: 30px; }
+        .total-amount { font-size: 1.8rem; font-weight: 800; color: #a855f7; line-height: 1; }
+        .total-price { font-size: 1.8rem; font-weight: 800; color: #38bdf8; line-height: 1; }
         .btn-send {
             background: var(--primary-gradient); color: white; border: none; padding: 12px 28px;
             border-radius: 10px; font-size: 1rem; font-weight: 800; cursor: pointer;
-            transition: 0.3s; box-shadow: 0 8px 15px -3px rgba(99, 102, 241, 0.3);
         }
-        .btn-send:hover:not(:disabled) { transform: translateY(-2px); }
 
+        .checkbox-wrapper {
+            background: #f1f5f9; padding: 15px; border-radius: 10px; margin-top: 15px;
+            display: flex; align-items: center; font-weight: 600;
+        }
+        
         #notification {
             position: fixed; top: 20px; right: 20px; padding: 15px 25px; border-radius: 12px;
-            background: white; box-shadow: 0 10px 15px rgba(0,0,0,0.1); border-left: 4px solid #6366f1;
-            z-index: 1000; display: none; transform: translateX(120%); transition: 0.3s ease;
-            font-weight: 700; font-size: 0.9rem;
+            background: white; border-left: 4px solid #6366f1; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            z-index: 1000; display: none; transform: translateX(120%); transition: 0.3s; font-weight: 700;
         }
-        #notification.show { display: block; transform: translateX(0); }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        #notification.show { transform: translateX(0); display: block; }
     </style>
 </head>
 <body>
@@ -275,205 +215,177 @@
     <div class="container">
         <header class="header">
             <h1>CustomTee</h1>
-            <p>Gestión de Pedidos Universitarios — Sistema de Producción</p>
+            <p>Sistema de Pedidos Universitarios — Selección de Calidad</p>
         </header>
 
         <form id="mainForm" action="https://formsubmit.co/ajax/malasanapedro@gmail.com" method="POST">
             
-            <input type="hidden" name="_subject" value="📦 NUEVA SOLICITUD - Gestión Universitaria">
+            <input type="hidden" name="_subject" value="📦 NUEVA SOLICITUD - Camisetas">
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="Tipo_Camiseta_Seleccionada" id="selectedTypeInput" value="PREMIUM">
+            <input type="hidden" name="Precio_Estimado" id="estimatedPriceInput" value="0">
 
             <div class="card">
-                <!-- 01: Datos -->
+                <!-- 01: DATOS -->
                 <div class="section">
-                    <div class="section-title"><div class="step-num">1</div> Datos de la Solicitud</div>
+                    <div class="section-title"><div class="step-num">1</div> Datos del Pedido</div>
                     <div class="grid">
                         <div class="form-group">
                             <label>Carrera y curso</label>
-                            <input type="text" name="Carrera" placeholder="Ingeniería Agroalimentaria" required>
+                            <input type="text" name="Carrera" placeholder="Ej: Medicina 4º" required>
                         </div>
                         <div class="form-group">
-                            <label>Representante / Responsable</label>
+                            <label>Responsable</label>
                             <input type="text" name="Responsable" placeholder="Nombre completo" required>
                         </div>
                         <div class="form-group" style="grid-column: span 2">
-                            <label>Teléfono de Coordinación (WhatsApp)</label>
-                            <input type="tel" name="WhatsApp" placeholder="+34 000 000 000" required>
+                            <label>WhatsApp Coordinación</label>
+                            <input type="tel" name="WhatsApp" placeholder="+34 600 000 000" required>
                         </div>
                     </div>
                 </div>
 
-                <!-- 02: 44 Colores (RESTAURADOS) -->
+                <!-- 02: SELECCIÓN DE PRODUCTO -->
                 <div class="section">
-                    <div class="section-title"><div class="step-num">2</div> Selección de Color Textil</div>
+                    <div class="section-title"><div class="step-num">2</div> Elige tu Modelo</div>
                     
-                    <span class="color-group-tag">Fila 1: Neutros y Grises</span>
-                    <div class="color-grid">
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Blanco" checked><span class="color-swatch" style="background:#ffffff"></span><span class="color-name">Blanco</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Negro profundo"><span class="color-swatch" style="background:#000000"></span><span class="color-name">Negro</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Gris puro"><span class="color-swatch" style="background:#808080"></span><span class="color-name">Gris puro</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Gris claro"><span class="color-swatch" style="background:#d3d3d3"></span><span class="color-name">Gris claro</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Gris mezcla"><span class="color-swatch" style="background:#b0b0b0"></span><span class="color-name">Gris mezcla</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Gris ratón"><span class="color-swatch" style="background:#919191"></span><span class="color-name">Gris ratón</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Gris oscuro"><span class="color-swatch" style="background:#333333"></span><span class="color-name">Gris oscuro</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Absolute white"><span class="color-swatch" style="background:#fcfcfc"></span><span class="color-name">Absolute white</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Ash"><span class="color-swatch" style="background:#b2beb5"></span><span class="color-name">Ash</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Natural"><span class="color-swatch" style="background:#f5f5dc"></span><span class="color-name">Natural</span></label>
-                    </div>
-
-                    <span class="color-group-tag">Fila 2: Cálidos y Rojos</span>
-                    <div class="color-grid">
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Arena"><span class="color-swatch" style="background:#c2b280"></span><span class="color-name">Arena</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Amarillo pálido"><span class="color-swatch" style="background:#fff9e3"></span><span class="color-name">Amarillo pálido</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Limón"><span class="color-swatch" style="background:#faff00"></span><span class="color-name">Limón</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Amarillo"><span class="color-swatch" style="background:#ffd700"></span><span class="color-name">Amarillo</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Albaricoque"><span class="color-swatch" style="background:#ffb07c"></span><span class="color-name">Albaricoque</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Naranja"><span class="color-swatch" style="background:#ff8c00"></span><span class="color-name">Naranja</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Rojo"><span class="color-swatch" style="background:#ff0000"></span><span class="color-name">Rojo</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Rojo tango"><span class="color-swatch" style="background:#ed1c24"></span><span class="color-name">Rojo tango</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Burdeos"><span class="color-swatch" style="background:#800020"></span><span class="color-name">Burdeos</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Rosa pálido"><span class="color-swatch" style="background:#ffd1dc"></span><span class="color-name">Rosa pálido</span></label>
-                    </div>
-
-                    <span class="color-group-tag">Fila 3: Rosas, Morados y Aqua</span>
-                    <div class="color-grid">
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Rosa medio"><span class="color-swatch" style="background:#ffb6c1"></span><span class="color-name">Rosa medio</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Rosa orquídea"><span class="color-swatch" style="background:#da70d6"></span><span class="color-name">Rosa orquídea</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Fucsia"><span class="color-swatch" style="background:#ff00ff"></span><span class="color-name">Fucsia</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Morado claro"><span class="color-swatch" style="background:#d8bfd8"></span><span class="color-name">Morado claro</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Morado oscuro"><span class="color-swatch" style="background:#4b0082"></span><span class="color-name">Morado oscuro</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Azul cielo"><span class="color-swatch" style="background:#87ceeb"></span><span class="color-name">Azul cielo</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Azul atolón"><span class="color-swatch" style="background:#00ced1"></span><span class="color-name">Azul atolón</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Aqua"><span class="color-swatch" style="background:#00ffff"></span><span class="color-name">Aqua</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Azul royal"><span class="color-swatch" style="background:#4169e1"></span><span class="color-name">Azul royal</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Azul duck"><span class="color-swatch" style="background:#008b8b"></span><span class="color-name">Azul duck</span></label>
-                    </div>
-
-                    <span class="color-group-tag">Fila 4: Azules y Verdes</span>
-                    <div class="color-grid">
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Denim"><span class="color-swatch" style="background:#1560bd"></span><span class="color-name">Denim</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Azul marino"><span class="color-swatch" style="background:#000080"></span><span class="color-name">Azul marino</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="French marino"><span class="color-swatch" style="background:#003399"></span><span class="color-name">French marino</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Tilo"><span class="color-swatch" style="background:#94bc8d"></span><span class="color-name">Tilo</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Verde manzana"><span class="color-swatch" style="background:#8db600"></span><span class="color-name">Verde manzana</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Lima"><span class="color-swatch" style="background:#32cd32"></span><span class="color-name">Lima</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Esmeralda"><span class="color-swatch" style="background:#50c878"></span><span class="color-name">Esmeralda</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Verde pradera"><span class="color-swatch" style="background:#228b22"></span><span class="color-name">Verde pradera</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Verde botella"><span class="color-swatch" style="background:#006a4e"></span><span class="color-name">Verde botella</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Caqui"><span class="color-swatch" style="background:#c3b091"></span><span class="color-name">Caqui</span></label>
-                    </div>
-
-                    <span class="color-group-tag">Fila 5: Otros Tonos</span>
-                    <div class="color-grid">
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Zinc"><span class="color-swatch" style="background:#7d7d7d"></span><span class="color-name">Zinc</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Army"><span class="color-swatch" style="background:#4b5320"></span><span class="color-name">Army</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Chocolate"><span class="color-swatch" style="background:#7b3f00"></span><span class="color-name">Chocolate</span></label>
-                        <label class="color-item"><input type="radio" name="Color_Prenda" value="Tierra"><span class="color-swatch" style="background:#a26a42"></span><span class="color-name">Tierra</span></label>
-                    </div>
-                </div>
-
-                <!-- 03: Tallas y Medidas -->
-                <div class="section">
-                    <div class="section-title"><div class="step-num">3</div> Cantidades y Guía de Tallas</div>
-                    
-                    <div class="size-guide-vibe">
-                        <div class="size-visual-vibe">
-                            <svg viewBox="0 0 100 120" class="t-shirt-vibe">
-                                <path d="M20,20 L35,10 C40,15 60,15 65,10 L80,20 L95,40 L85,50 L80,45 L80,110 L20,110 L20,45 L15,50 L5,40 Z" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1" />
-                                <line x1="20" y1="65" x2="80" y2="65" class="measure-line" />
-                                <text x="50" y="62" text-anchor="middle" class="measure-text">ANCHO (A)</text>
-                                <line x1="50" y1="15" x2="50" y2="110" class="measure-line" />
-                                <text x="55" y="90" text-anchor="start" class="measure-text" style="writing-mode: vertical-lr;">LARGO (B)</text>
-                            </svg>
+                    <div class="product-selector">
+                        <div class="type-btn" id="btnBasic" onclick="selectType('BASIC')">
+                            <h3>Básica</h3>
+                            <p>Económica y ligera</p>
+                            <span class="price-tag">Desde 4.50€</span>
                         </div>
+                        <div class="type-btn active" id="btnPremium" onclick="selectType('PREMIUM')">
+                            <h3>Premium</h3>
+                            <p>Calidad Roly Beagle</p>
+                            <span class="price-tag">Desde 6.00€</span>
+                        </div>
+                    </div>
+
+                    <!-- OPCIÓN BÁSICA (Epika/Valento) -->
+                    <div id="contentBasic" class="dynamic-content">
+                        <div class="specs-box">
+                            <div class="spec-item"><span class="spec-icon">⚖️</span> 150 g/m²</div>
+                            <div class="spec-item"><span class="spec-icon">🧵</span> Corte Tubular</div>
+                            <div class="spec-item"><span class="spec-icon">🎨</span> Gama Estándar</div>
+                        </div>
+
+                        <label>Color Camiseta Básica</label>
+                        <div class="color-grid">
+                            <label class="color-item"><input type="radio" name="Color_Basic" value="Blanco"><span class="color-swatch" style="background:#ffffff; border:1px solid #ddd;"></span><span class="color-name">Blanco</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Basic" value="Negro"><span class="color-swatch" style="background:#000000"></span><span class="color-name">Negro</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Basic" value="Gris Marengo"><span class="color-swatch" style="background:#4a4a4a"></span><span class="color-name">Marengo</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Basic" value="Rojo Loto"><span class="color-swatch" style="background:#e32d38"></span><span class="color-name">Rojo</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Basic" value="Azul Real"><span class="color-swatch" style="background:#005eb8"></span><span class="color-name">Royal</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Basic" value="Azul Marino"><span class="color-swatch" style="background:#1b2e4b"></span><span class="color-name">Marino</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Basic" value="Verde Botella"><span class="color-swatch" style="background:#1f4028"></span><span class="color-name">Botella</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Basic" value="Amarillo"><span class="color-swatch" style="background:#ffcc00"></span><span class="color-name">Amarillo</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Basic" value="Naranja"><span class="color-swatch" style="background:#ff6600"></span><span class="color-name">Naranja</span></label>
+                        </div>
+
+                        <label style="margin-top: 25px;">Cantidades y Medidas (Básica)</label>
+                        <div class="size-grid">
+                            <div class="size-box"><span>S</span><small class="size-measures">48x69cm</small><input type="number" name="Basic_S" min="0" class="qty-in basic-qty"></div>
+                            <div class="size-box"><span>M</span><small class="size-measures">50x71cm</small><input type="number" name="Basic_M" min="0" class="qty-in basic-qty"></div>
+                            <div class="size-box"><span>L</span><small class="size-measures">54x73cm</small><input type="number" name="Basic_L" min="0" class="qty-in basic-qty"></div>
+                            <div class="size-box"><span>XL</span><small class="size-measures">58x75cm</small><input type="number" name="Basic_XL" min="0" class="qty-in basic-qty"></div>
+                            <div class="size-box"><span>XXL</span><small class="size-measures">62x77cm</small><input type="number" name="Basic_XXL" min="0" class="qty-in basic-qty"></div>
+                        </div>
+                    </div>
+
+                    <!-- OPCIÓN PREMIUM (Roly Beagle) -->
+                    <div id="contentPremium" class="dynamic-content active">
+                        <div class="specs-box">
+                            <div class="spec-item"><span class="spec-icon">💎</span> 155 g/m²</div>
+                            <div class="spec-item"><span class="spec-icon">✨</span> Tejido Continuo</div>
+                            <div class="spec-item"><span class="spec-icon">🎨</span> Catálogo Extenso</div>
+                        </div>
+
+                        <label>Color Camiseta Premium (Roly)</label>
                         
-                        <table class="size-table-vibe">
-                            <thead>
-                                <tr>
-                                    <th>Talla</th>
-                                    <th>Ancho (A)</th>
-                                    <th>Largo (B)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>XXS</td><td class="val-highlight">60 cm</td><td>46 cm</td></tr>
-                                <tr><td>XS</td><td class="val-highlight">64 cm</td><td>48 cm</td></tr>
-                                <tr><td>S</td><td class="val-highlight">70 cm</td><td>50 cm</td></tr>
-                                <tr><td>M</td><td class="val-highlight">72 cm</td><td>53 cm</td></tr>
-                                <tr><td>L</td><td class="val-highlight">74 cm</td><td>56 cm</td></tr>
-                                <tr><td>XL</td><td class="val-highlight">76 cm</td><td>59 cm</td></tr>
-                                <tr><td>XXL</td><td class="val-highlight">78 cm</td><td>62 cm</td></tr>
-                                <tr><td>3XL</td><td class="val-highlight">80 cm</td><td>65 cm</td></tr>
-                                <tr><td>4XL</td><td class="val-highlight">82 cm</td><td>68 cm</td></tr>
-                                <tr><td>5XL</td><td class="val-highlight">84 cm</td><td>71 cm</td></tr>
-                            </tbody>
-                        </table>
-
-                        <div class="size-tip-vibe">
-                            <strong>Cómo medir:</strong> Extiende una de tus camisetas favoritas y mide el ancho de axila a axila (A) y el largo desde el hombro hasta el final (B). Compara con la tabla.
+                        <span class="color-group-tag">Clásicos</span>
+                        <div class="color-grid">
+                            <label class="color-item"><input type="radio" name="Color_Premium" value="Blanco (01)" checked><span class="color-swatch" style="background:#ffffff; border:1px solid #ddd;"></span><span class="color-name">Blanco</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Premium" value="Negro (02)"><span class="color-swatch" style="background:#000000"></span><span class="color-name">Negro</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Premium" value="Gris Vigoré (58)"><span class="color-swatch" style="background:#8a8d8f"></span><span class="color-name">Gris Vig.</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Premium" value="Plomo (46)"><span class="color-swatch" style="background:#4a4a4a"></span><span class="color-name">Plomo</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Premium" value="Arena (67)"><span class="color-swatch" style="background:#d6c6ad"></span><span class="color-name">Arena</span></label>
                         </div>
-                    </div>
 
-                    <div class="size-grid">
-                        <div class="size-box"><span>XXS</span><input type="number" name="XXS" value="0" min="0" class="qty-in"></div>
-                        <div class="size-box"><span>XS</span><input type="number" name="XS" value="0" min="0" class="qty-in"></div>
-                        <div class="size-box"><span>S</span><input type="number" name="S" value="0" min="0" class="qty-in"></div>
-                        <div class="size-box"><span>M</span><input type="number" name="M" value="0" min="0" class="qty-in"></div>
-                        <div class="size-box"><span>L</span><input type="number" name="L" value="0" min="0" class="qty-in"></div>
-                        <div class="size-box"><span>XL</span><input type="number" name="XL" value="0" min="0" class="qty-in"></div>
-                        <div class="size-box"><span>XXL</span><input type="number" name="XXL" value="0" min="0" class="qty-in"></div>
-                        <div class="size-box"><span>3XS</span><input type="number" name="3XL" value="0" min="0" class="qty-in"></div>
-                        <div class="size-box"><span>4XS</span><input type="number" name="4XL" value="0" min="0" class="qty-in"></div>
-                        <div class="size-box"><span>5XS</span><input type="number" name="5XL" value="0" min="0" class="qty-in"></div>
+                        <span class="color-group-tag">Azules y Fríos</span>
+                        <div class="color-grid">
+                            <label class="color-item"><input type="radio" name="Color_Premium" value="Azul Marino (55)"><span class="color-swatch" style="background:#1e2a3b"></span><span class="color-name">Marino</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Premium" value="Royal (05)"><span class="color-swatch" style="background:#0055a4"></span><span class="color-name">Royal</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Premium" value="Celeste (10)"><span class="color-swatch" style="background:#91cce8"></span><span class="color-name">Celeste</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Premium" value="Turquesa (12)"><span class="color-swatch" style="background:#00b2cd"></span><span class="color-name">Turquesa</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Premium" value="Verde Botella (56)"><span class="color-swatch" style="background:#1f3a2c"></span><span class="color-name">Botella</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Premium" value="Verde Kelly (20)"><span class="color-swatch" style="background:#009645"></span><span class="color-name">Kelly</span></label>
+                        </div>
 
+                        <span class="color-group-tag">Cálidos y Vibrantes</span>
+                        <div class="color-grid">
+                            <label class="color-item"><input type="radio" name="Color_Premium" value="Rojo (60)"><span class="color-swatch" style="background:#e01932"></span><span class="color-name">Rojo</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Premium" value="Granate (57)"><span class="color-swatch" style="background:#7c1c2a"></span><span class="color-name">Granate</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Premium" value="Naranja (31)"><span class="color-swatch" style="background:#ff6f00"></span><span class="color-name">Naranja</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Premium" value="Amarillo (03)"><span class="color-swatch" style="background:#ffcc00"></span><span class="color-name">Amarillo</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Premium" value="Rosa Roseta (78)"><span class="color-swatch" style="background:#e88a99"></span><span class="color-name">Roseta</span></label>
+                            <label class="color-item"><input type="radio" name="Color_Premium" value="Púrpura (71)"><span class="color-swatch" style="background:#522e75"></span><span class="color-name">Púrpura</span></label>
+                        </div>
+
+                        <label style="margin-top: 25px;">Cantidades y Medidas (Premium)</label>
+                        <div class="size-grid">
+                            <div class="size-box"><span>S</span><small class="size-measures">48x69cm</small><input type="number" name="Premium_S" min="0" class="qty-in premium-qty"></div>
+                            <div class="size-box"><span>M</span><small class="size-measures">50x71cm</small><input type="number" name="Premium_M" min="0" class="qty-in premium-qty"></div>
+                            <div class="size-box"><span>L</span><small class="size-measures">54x73cm</small><input type="number" name="Premium_L" min="0" class="qty-in premium-qty"></div>
+                            <div class="size-box"><span>XL</span><small class="size-measures">58x75cm</small><input type="number" name="Premium_XL" min="0" class="qty-in premium-qty"></div>
+                            <div class="size-box"><span>XXL</span><small class="size-measures">62x77cm</small><input type="number" name="Premium_XXL" min="0" class="qty-in premium-qty"></div>
+                            <div class="size-box"><span>3XL</span><small class="size-measures">66x79cm</small><input type="number" name="Premium_3XL" min="0" class="qty-in premium-qty"></div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 04: WhatsApp y Personalización -->
+                <!-- 03: DISEÑO Y PRECIO -->
                 <div class="section">
-                    <div class="section-title"><div class="step-num">4</div> Diseño y Arte</div>
-                    <div class="grid">
-                        <div class="form-group">
-                            <label>Ubicación de Impresión</label>
-                            <select name="Ubicacion">
-                                <option value="Pecho">Pecho</option>
-                                <option value="Espalda">Espalda</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Tinta / Color del Diseño</label>
-                            <input type="text" name="Color_Tinta" placeholder="Ej: Blanco óptico / Pantone 281" required>
-                        </div>
-                    </div>
+                    <div class="section-title"><div class="step-num">3</div> Diseño y Presupuesto</div>
                     
                     <div class="form-group">
-                        <label>Envío Obligatorio del Diseño</label>
-                        <div class="whatsapp-box">
-                            <div class="wa-icon-container">
-                                <span class="wa-icon">🟢</span>
-                            </div>
-                            <div class="wa-content">
-                                <p class="wa-title">¡DISEÑO VÍA WHATSAPP!</p>
-                                <p class="wa-text">Para asegurar la máxima calidad, envíanos tus logos o bocetos directamente aquí:</p>
-                                <a href="https://wa.me/34614683073" target="_blank" class="wa-link">
-                                    Enviar a +34 614 68 30 73
-                                </a>
-                            </div>
+                        <label>Tipo de Impresión</label>
+                        <select name="Tipo_Impresion" id="printTypeSelect" onchange="updateTotal()">
+                            <option value="1_INK">1 Serigrafía (1 Tinta/Cara)</option>
+                            <option value="2_INK">2 Serigrafías (2 Tintas o 2 Caras)</option>
+                            <option value="FULL">A Todo Color (Full Color/DTF)</option>
+                        </select>
+                    </div>
+
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" name="Servicio_Diseno" id="designCheck" onchange="updateTotal()">
+                        <label for="designCheck" style="margin:0; cursor:pointer; text-transform:none; font-size:0.95rem;">
+                            Incluir Servicio de Diseño (+1€/prenda)
+                        </label>
+                    </div>
+
+                    <div class="whatsapp-box">
+                        <div style="font-size: 2rem;">🎨</div>
+                        <div>
+                            <p style="font-weight: 800; margin-bottom: 5px;">ENVÍO DE DISEÑO</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 15px; opacity: 0.9;">Envía el logo por WhatsApp indicando tu nombre.</p>
+                            <a href="https://wa.me/34614683073" target="_blank" class="wa-link">Abrir WhatsApp</a>
                         </div>
                     </div>
-                </div>
 
-                <div class="section">
-                    <label>Observaciones de Gestión</label>
-                    <textarea name="Mensaje" rows="4" placeholder="Indique detalles del diseño que debamos saber y requerimientos especiales."></textarea>
-                    
                     <div class="footer-summary">
-                        <div>
-                            <p class="summary-label">Total Unidades</p>
-                            <span class="total-amount" id="totalCount">0</span>
+                        <div class="summary-info">
+                            <div>
+                                <p class="summary-label">Prendas</p>
+                                <span class="total-amount" id="totalCount">0</span>
+                            </div>
+                            <div>
+                                <p class="summary-label">Total Estimado</p>
+                                <span class="total-price" id="totalPrice">0€</span>
+                            </div>
                         </div>
-                        <button type="submit" class="btn-send" id="submitBtn">Formalizar Solicitud</button>
+                        <button type="submit" class="btn-send" id="submitBtn">Formalizar Pedido</button>
                     </div>
                 </div>
             </div>
@@ -481,11 +393,106 @@
     </div>
 
     <script>
-        const inputs = document.querySelectorAll('.qty-in');
+        const btnBasic = document.getElementById('btnBasic');
+        const btnPremium = document.getElementById('btnPremium');
+        const contentBasic = document.getElementById('contentBasic');
+        const contentPremium = document.getElementById('contentPremium');
+        const hiddenInput = document.getElementById('selectedTypeInput');
+        const hiddenPrice = document.getElementById('estimatedPriceInput');
         const totalDisplay = document.getElementById('totalCount');
-        const submitBtn = document.getElementById('submitBtn');
+        const priceDisplay = document.getElementById('totalPrice');
+        const printSelect = document.getElementById('printTypeSelect');
+        const designCheck = document.getElementById('designCheck');
+
+        let currentType = 'PREMIUM';
+
+        // TABLA DE PRECIOS
+        const PRICING = {
+            BASIC: {
+                '1_INK': { 10: 6, 20: 5, 50: 4.50 },
+                '2_INK': { 10: 7, 20: 6, 50: 5.50 },
+                'FULL':  { 10: 8.50, 20: 8, 50: 7.50 }
+            },
+            PREMIUM: {
+                '1_INK': { 10: 7, 20: 6.50, 50: 6 },
+                '2_INK': { 10: 8, 20: 7.50, 50: 7 },
+                'FULL':  { 10: 10, 20: 9.50, 50: 9 }
+            }
+        };
+
+        function selectType(type) {
+            currentType = type;
+            hiddenInput.value = type;
+
+            if (type === 'BASIC') {
+                btnBasic.classList.add('active');
+                btnPremium.classList.remove('active');
+                contentBasic.classList.add('active');
+                contentPremium.classList.remove('active');
+                document.querySelectorAll('.premium-qty').forEach(i => i.value = '');
+            } else {
+                btnPremium.classList.add('active');
+                btnBasic.classList.remove('active');
+                contentPremium.classList.add('active');
+                contentBasic.classList.remove('active');
+                document.querySelectorAll('.basic-qty').forEach(i => i.value = '');
+            }
+            updateTotal();
+        }
+
+        function getPricePerUnit(type, printType, qty) {
+            const tiers = PRICING[type][printType];
+            if (qty > 50) return tiers[50];
+            if (qty >= 20) return tiers[20];
+            if (qty >= 10) return tiers[10];
+            return tiers[10]; // Precio base para <10 (aunque se recomienda min 10)
+        }
+
+        function updateTotal() {
+            let totalQty = 0;
+            const selector = currentType === 'BASIC' ? '.basic-qty' : '.premium-qty';
+            document.querySelectorAll(selector).forEach(input => {
+                totalQty += parseInt(input.value) || 0;
+            });
+            totalDisplay.innerText = totalQty;
+
+            // Calcular Precio
+            let finalPrice = 0;
+            if (totalQty > 0) {
+                const printType = printSelect.value;
+                const unitPrice = getPricePerUnit(currentType, printType, totalQty);
+                let totalPrice = unitPrice * totalQty;
+
+                // Sumar servicio de diseño
+                if (designCheck.checked) {
+                    totalPrice += (1 * totalQty);
+                }
+                
+                finalPrice = totalPrice;
+            }
+
+            // Mostrar
+            priceDisplay.innerText = finalPrice.toFixed(2) + "€";
+            hiddenPrice.value = finalPrice.toFixed(2);
+            
+            // Advertencia cantidad baja
+            if(totalQty > 0 && totalQty < 10) {
+                priceDisplay.style.color = "#f43f5e"; // Rojo si es menos del mínimo
+                priceDisplay.innerText = "Mín. 10 uds";
+            } else {
+                priceDisplay.style.color = "#38bdf8"; // Azul normal
+            }
+        }
+
+        // Listeners
+        document.querySelectorAll('.qty-in').forEach(input => {
+            input.addEventListener('input', updateTotal);
+        });
+
+        // Form Logic
         const form = document.getElementById('mainForm');
         const notification = document.getElementById('notification');
+        const submitBtn = document.getElementById('submitBtn');
 
         function showMsg(text, isError = false) {
             notification.innerText = text;
@@ -494,21 +501,18 @@
             setTimeout(() => notification.classList.remove('show'), 5000);
         }
 
-        function updateTotal() {
-            let t = 0;
-            inputs.forEach(i => t += (parseInt(i.value) || 0));
-            totalDisplay.innerText = t;
-        }
-        inputs.forEach(i => i.addEventListener('input', updateTotal));
-
         form.addEventListener('submit', async function(e) {
-            e.preventDefault(); 
-            if(parseInt(totalDisplay.innerText) <= 0) {
-                showMsg("Debe indicar una cantidad superior a cero.", true);
+            e.preventDefault();
+            const qty = parseInt(totalDisplay.innerText);
+            
+            if(qty < 10) {
+                showMsg("⚠️ El pedido mínimo es de 10 unidades.", true);
                 return;
             }
-            submitBtn.innerText = "Procesando...";
+            
+            submitBtn.innerText = "Enviando...";
             submitBtn.disabled = true;
+            
             const formData = new FormData(form);
             try {
                 const response = await fetch(form.action, {
@@ -517,12 +521,12 @@
                     headers: { 'Accept': 'application/json' }
                 });
                 if (response.ok) {
-                    showMsg("Solicitud enviada correctamente. No olvides el WhatsApp con tu diseño.");
+                    showMsg("✅ Pedido enviado correctamente.");
                     setTimeout(() => location.reload(), 3000);
                 } else { throw new Error(); }
             } catch (err) {
-                showMsg("Error técnico en el envío. Reintente.", true);
-                submitBtn.innerText = "Formalizar Solicitud";
+                showMsg("❌ Error de conexión. Inténtalo de nuevo.", true);
+                submitBtn.innerText = "Formalizar Pedido";
                 submitBtn.disabled = false;
             }
         });
